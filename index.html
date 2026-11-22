@@ -1,0 +1,951 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Praxispuls — Wartezeiten-Demo</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Sans:ital,wght@0,400..700;1,400..700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --ink:#15211f;
+    --paper:#f5f7f3;
+    --surface:#ffffff;
+    --teal:#0d6b5b;
+    --teal-dark:#0a5245;
+    --teal-wash:#e7efec;
+    --amber:#9a6208;
+    --amber-wash:#f8efdf;
+    --red:#9d2b1f;
+    --red-wash:#f8e8e5;
+    --line:#dde1da;
+    --line-soft:#eceee8;
+    --muted:#69736d;
+    --radius:14px;
+  }
+
+  *{box-sizing:border-box}
+
+  html,body{margin:0;padding:0}
+
+  body{
+    background:var(--paper);
+    color:var(--ink);
+    font-family:"Instrument Sans",-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
+    font-size:16px;
+    line-height:1.5;
+    -webkit-font-smoothing:antialiased;
+    font-variant-numeric:tabular-nums;
+  }
+
+  button{font-family:inherit;font-size:inherit;cursor:pointer}
+  input,select{font-family:inherit;font-size:inherit;color:inherit}
+
+  :focus-visible{outline:2.5px solid var(--teal);outline-offset:2px;border-radius:4px}
+
+  @media (prefers-reduced-motion:reduce){
+    *{animation-duration:.001ms !important;transition-duration:.001ms !important}
+  }
+
+  /* ---------- Demo-Leiste (gehört nicht zum Produkt) ---------- */
+  .demobar{
+    background:var(--ink);
+    color:#f3f5f1;
+    padding:14px 22px;
+    display:flex;
+    align-items:center;
+    gap:26px;
+    flex-wrap:wrap;
+  }
+  .demobar__brand{font-weight:600;letter-spacing:-.01em;font-size:1.0625rem}
+  .demobar__brand span{color:#8fc4b7;font-weight:400}
+  .demobar__switch{display:flex;gap:4px;background:rgba(255,255,255,.1);padding:4px;border-radius:999px;margin-left:auto}
+  .demobar__tab{
+    border:0;background:transparent;color:#cfd8d3;
+    padding:7px 16px;border-radius:999px;font-weight:500;
+    transition:background .15s,color .15s;
+  }
+  .demobar__tab[aria-selected="true"]{background:var(--surface);color:var(--ink)}
+  .demobar__note{font-size:.8125rem;color:#9aa8a2;max-width:34ch;line-height:1.35}
+
+  /* ---------- Layout ---------- */
+  .stage{padding:34px 22px 70px}
+  .wrap{max-width:1180px;margin:0 auto}
+
+  /* ---------- Patientenansicht: Telefon ---------- */
+  .patient-layout{display:grid;grid-template-columns:minmax(0,370px) minmax(0,1fr);gap:46px;align-items:start}
+  @media (max-width:860px){.patient-layout{grid-template-columns:1fr;gap:30px}}
+
+  .phone{
+    background:var(--ink);
+    border-radius:38px;
+    padding:11px;
+    box-shadow:0 22px 50px -24px rgba(21,33,31,.5);
+    max-width:370px;
+    width:100%;
+  }
+  .phone__screen{
+    background:var(--surface);
+    border-radius:28px;
+    overflow:hidden;
+    min-height:620px;
+    display:flex;
+    flex-direction:column;
+  }
+  .phone__status{
+    display:flex;justify-content:space-between;align-items:center;
+    padding:11px 20px 3px;font-size:.75rem;color:var(--muted);font-weight:500;
+  }
+
+  .app{padding:12px 20px 26px;flex:1;display:flex;flex-direction:column}
+
+  .app__kicker{font-size:.8125rem;color:var(--muted);margin:0 0 3px}
+  .app__title{font-size:1.5rem;font-weight:600;letter-spacing:-.022em;line-height:1.2;margin:0 0 20px}
+
+  .field{margin-bottom:17px}
+  .field label{display:block;font-size:.8125rem;color:var(--muted);margin-bottom:6px}
+  .field select,.field input{
+    width:100%;padding:11px 13px;border:1px solid var(--line);
+    border-radius:10px;background:var(--surface);
+  }
+  .field select{appearance:none;background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='12' height='8'><path d='M1 1l5 5 5-5' stroke='%2369736d' stroke-width='1.6' fill='none' stroke-linecap='round'/></svg>");background-repeat:no-repeat;background-position:right 13px center}
+
+  .chips{display:flex;flex-wrap:wrap;gap:7px}
+  .chip{
+    border:1px solid var(--line);background:var(--surface);color:var(--ink);
+    padding:8px 14px;border-radius:999px;font-size:.9375rem;
+  }
+  .chip[aria-pressed="true"]{background:var(--teal);border-color:var(--teal);color:#fff}
+
+  .btn{
+    display:block;width:100%;text-align:center;border:0;
+    background:var(--teal);color:#fff;font-weight:600;
+    padding:14px;border-radius:11px;
+  }
+  .btn:hover{background:var(--teal-dark)}
+  .btn--ghost{background:var(--surface);color:var(--ink);border:1px solid var(--line);font-weight:500}
+  .btn--ghost:hover{background:var(--paper)}
+  .btn--row{margin-top:9px}
+
+  .backlink{
+    border:0;background:transparent;color:var(--muted);padding:0;
+    margin-bottom:14px;text-align:left;font-size:.9375rem;
+  }
+  .backlink:hover{color:var(--ink)}
+
+  .results{list-style:none;margin:4px 0 0;padding:0;overflow-y:auto;flex:1}
+  .results li + li{border-top:1px solid var(--line-soft)}
+  .result{
+    width:100%;border:0;background:transparent;text-align:left;
+    padding:14px 2px;display:flex;gap:12px;align-items:flex-start;
+  }
+  .result:hover{background:var(--paper)}
+  .result__body{flex:1;min-width:0}
+  .result__name{font-weight:600;letter-spacing:-.01em;display:block}
+  .result__meta{font-size:.8125rem;color:var(--muted);display:block;margin-top:1px}
+
+  .pill{
+    flex-shrink:0;font-size:.75rem;font-weight:600;padding:4px 9px;border-radius:7px;white-space:nowrap;
+  }
+  .pill--ok{background:var(--teal-wash);color:var(--teal-dark)}
+  .pill--mid{background:var(--amber-wash);color:var(--amber)}
+  .pill--high{background:var(--red-wash);color:var(--red)}
+
+  .empty{color:var(--muted);font-size:.9375rem;padding:22px 2px;margin:0}
+
+  /* Detailseite */
+  .praxishead{border-bottom:1px solid var(--line-soft);padding-bottom:15px;margin-bottom:20px}
+  .praxishead h2{font-size:1.25rem;font-weight:600;letter-spacing:-.02em;margin:0 0 3px;line-height:1.25}
+  .praxishead p{margin:0;font-size:.875rem;color:var(--muted)}
+
+  .hero{text-align:center;padding:6px 0 20px}
+  .hero__label{font-size:.9375rem;color:var(--muted);margin:0 0 2px}
+  .hero__time{
+    font-size:4.25rem;font-weight:600;letter-spacing:-.045em;line-height:.98;margin:0;
+    font-feature-settings:"tnum";
+  }
+  .hero__delta{margin:9px 0 0;font-size:.9375rem;font-weight:500}
+  .hero__delta--up{color:var(--amber)}
+  .hero__delta--ok{color:var(--teal-dark)}
+
+  .factrow{display:flex;justify-content:space-between;gap:10px;padding:11px 0;border-top:1px solid var(--line-soft);font-size:.9375rem}
+  .factrow dt{color:var(--muted);margin:0}
+  .factrow dd{margin:0;font-weight:500;text-align:right}
+
+  .notice{
+    background:var(--paper);border-radius:11px;padding:13px 14px;
+    font-size:.8438rem;line-height:1.45;color:var(--muted);margin:18px 0 0;
+  }
+  .notice strong{color:var(--ink);font-weight:600}
+  .notice--warn{background:var(--amber-wash);color:#7d4f06}
+  .notice--warn strong{color:#5e3b04}
+
+  .linkish{
+    border:0;background:transparent;padding:0;color:var(--teal-dark);
+    font-weight:500;text-decoration:underline;text-underline-offset:2px;font-size:.875rem;margin-top:10px;
+  }
+
+  .actions{margin-top:auto;padding-top:20px}
+
+  /* ---------- Demo-Notizen neben dem Telefon ---------- */
+  .notes{max-width:520px}
+  .notes h3{font-size:1.1875rem;font-weight:600;letter-spacing:-.02em;margin:0 0 8px}
+  .notes > p{color:var(--muted);font-size:.9375rem;margin:0 0 22px;max-width:52ch}
+
+  .panel{background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);padding:19px 20px;margin-bottom:16px}
+  .panel h4{margin:0 0 13px;font-size:.9375rem;font-weight:600}
+  .panel p{margin:0;color:var(--muted);font-size:.875rem;line-height:1.5}
+
+  .ctrl{display:flex;align-items:center;justify-content:space-between;gap:14px;padding:9px 0;border-top:1px solid var(--line-soft)}
+  .ctrl:first-of-type{border-top:0;padding-top:0}
+  .ctrl span{font-size:.875rem}
+  .ctrl small{display:block;color:var(--muted);font-size:.8125rem;line-height:1.35}
+  .ctrl input[type="time"]{padding:7px 9px;border:1px solid var(--line);border-radius:8px}
+
+  .toggle{
+    border:1px solid var(--line);background:var(--surface);
+    padding:6px 13px;border-radius:999px;font-size:.875rem;white-space:nowrap;
+  }
+  .toggle[aria-pressed="true"]{background:var(--ink);border-color:var(--ink);color:#fff}
+
+  .math{font-size:.875rem;line-height:1.7;color:var(--muted);margin:0}
+  .math b{color:var(--ink);font-weight:600}
+
+  /* ---------- Praxis-Dashboard ---------- */
+  .dash__top{
+    display:flex;justify-content:space-between;align-items:flex-end;gap:20px;
+    flex-wrap:wrap;margin-bottom:22px;
+  }
+  .dash__id h2{margin:0;font-size:1.625rem;font-weight:600;letter-spacing:-.025em}
+  .dash__id p{margin:3px 0 0;color:var(--muted);font-size:.9375rem}
+  .dash__clock{text-align:right}
+  .dash__clock strong{display:block;font-size:1.75rem;font-weight:600;letter-spacing:-.03em;line-height:1}
+  .dash__clock span{font-size:.8125rem;color:var(--muted)}
+
+  .dash__grid{display:grid;grid-template-columns:minmax(0,340px) minmax(0,1fr);gap:20px;align-items:start}
+  @media (max-width:900px){.dash__grid{grid-template-columns:1fr}}
+
+  .card{background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);padding:21px 22px}
+  .card + .card{margin-top:16px}
+  .card__title{margin:0 0 4px;font-size:.9375rem;font-weight:600}
+  .card__sub{margin:0 0 16px;color:var(--muted);font-size:.8438rem;line-height:1.45}
+
+  .verzug{display:flex;align-items:baseline;gap:9px;margin:2px 0 16px}
+  .verzug strong{font-size:3.5rem;font-weight:600;letter-spacing:-.045em;line-height:.92}
+  .verzug em{font-style:normal;color:var(--muted);font-size:1rem}
+
+  .steps{display:flex;gap:7px;margin-bottom:11px;flex-wrap:wrap}
+  .steps button{
+    flex:1;min-width:58px;border:1px solid var(--line);background:var(--surface);
+    padding:11px 4px;border-radius:9px;font-weight:600;
+  }
+  .steps button:hover{background:var(--paper);border-color:var(--muted)}
+
+  .outcome{background:var(--teal-wash);border-radius:11px;padding:15px 16px;margin-top:4px}
+  .outcome__k{margin:0;font-size:.8438rem;color:var(--teal-dark)}
+  .outcome__v{margin:1px 0 0;font-size:1.875rem;font-weight:600;letter-spacing:-.03em;color:var(--teal-dark);line-height:1.1}
+  .outcome__why{margin:7px 0 0;font-size:.8125rem;color:#3f6a60;line-height:1.45}
+
+  .counts{display:flex;gap:26px;margin:0 0 2px;padding:0;list-style:none}
+  .counts div strong{display:block;font-size:1.625rem;font-weight:600;letter-spacing:-.025em;line-height:1.15}
+  .counts div span{font-size:.8125rem;color:var(--muted)}
+
+  .plan{list-style:none;margin:0;padding:0;max-height:430px;overflow-y:auto}
+  .plan li{display:flex;align-items:center;gap:13px;padding:10px 2px;border-top:1px solid var(--line-soft);font-size:.9375rem}
+  .plan li:first-child{border-top:0}
+  .plan__time{width:46px;font-weight:600;flex-shrink:0}
+  .plan__new{width:62px;flex-shrink:0;color:var(--amber);font-weight:500;font-size:.875rem}
+  .plan__art{flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+  .plan__art small{color:var(--muted);font-weight:400}
+  .plan li.is-done{color:var(--muted)}
+  .plan li.is-done .plan__time{font-weight:500}
+  .plan li.is-moved .plan__art{text-decoration:line-through;text-decoration-color:var(--line)}
+  .plan__flag{
+    border:1px solid var(--line);background:var(--surface);color:var(--muted);
+    font-size:.75rem;padding:3px 8px;border-radius:7px;flex-shrink:0;
+  }
+  .plan__flag[aria-pressed="true"]{background:var(--red-wash);border-color:#e2bdb7;color:var(--red);font-weight:600}
+
+  .setting{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:10px 0;border-top:1px solid var(--line-soft)}
+  .setting:first-of-type{border-top:0}
+  .setting label{font-size:.875rem}
+  .setting label small{display:block;color:var(--muted);font-size:.8125rem;line-height:1.35;max-width:40ch}
+  .setting input{width:74px;padding:8px 10px;border:1px solid var(--line);border-radius:8px;text-align:right}
+
+  .flash{
+    margin:0 0 16px;padding:12px 15px;border-radius:11px;
+    background:var(--teal-wash);color:var(--teal-dark);font-size:.875rem;font-weight:500;
+  }
+  .flash[hidden]{display:none}
+
+  [hidden]{display:none !important}
+  .sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap}
+</style>
+</head>
+<body>
+
+<header class="demobar">
+  <div class="demobar__brand">Praxispuls <span>— Demo</span></div>
+  <p class="demobar__note">Prototyp. Beide Ansichten teilen sich dieselben Daten: ändert das Dashboard den Verzug, ändert sich die Patientenansicht.</p>
+  <div class="demobar__switch" role="tablist" aria-label="Ansicht wählen">
+    <button class="demobar__tab" role="tab" id="tab-patient" aria-selected="true" aria-controls="view-patient">Patienten-App</button>
+    <button class="demobar__tab" role="tab" id="tab-praxis" aria-selected="false" aria-controls="view-praxis">Praxis-Dashboard</button>
+  </div>
+</header>
+
+<main class="stage">
+
+  <!-- ===================== PATIENTENANSICHT ===================== -->
+  <section class="wrap" id="view-patient" role="tabpanel" aria-labelledby="tab-patient">
+    <div class="patient-layout">
+
+      <div class="phone">
+        <div class="phone__screen">
+          <div class="phone__status">
+            <span id="phoneClock">–:–</span>
+            <span>Praxispuls</span>
+          </div>
+          <div class="app" id="app"></div>
+        </div>
+      </div>
+
+      <div class="notes">
+        <h3>Was diese Ansicht zeigt</h3>
+        <p>Der Patient sucht Ort und Fachrichtung, wählt seine Praxis und sieht eine einzige Zahl: wann er losfahren soll. Die rohe Verzögerung der Praxis sieht er absichtlich nicht.</p>
+
+        <div class="panel">
+          <h4>Demo-Steuerung</h4>
+          <div class="ctrl">
+            <span>Termin des Patienten
+              <small>Gehört im Produkt dem Patienten, nicht der Praxis.</small>
+            </span>
+            <input type="time" id="demoTermin" aria-label="Termin des Patienten">
+          </div>
+          <div class="ctrl">
+            <span>Termin ist weit entfernt
+              <small>Prüft die Regel „erst 2 Std. vor dem Termin anzeigen“.</small>
+            </span>
+            <button class="toggle" id="demoFern" aria-pressed="false">Morgen 09:00</button>
+          </div>
+        </div>
+
+        <div class="panel">
+          <h4>Die Rechnung hinter der Anzeige</h4>
+          <p class="math" id="mathBox"></p>
+        </div>
+
+        <div class="panel">
+          <h4>Noch nicht gebaut</h4>
+          <p>Echte Nutzerkonten, Anbindung an ein Praxisverwaltungssystem, Push-Benachrichtigungen und ein Server. Dafür braucht es Stufe 2 — siehe Antwort im Chat.</p>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ===================== PRAXIS-DASHBOARD ===================== -->
+  <section class="wrap" id="view-praxis" role="tabpanel" aria-labelledby="tab-praxis" hidden>
+
+    <div class="dash__top">
+      <div class="dash__id">
+        <h2 id="dashName">—</h2>
+        <p id="dashAddr">—</p>
+      </div>
+      <div class="dash__clock">
+        <strong id="dashClock">–:–</strong>
+        <span id="dashDate">—</span>
+      </div>
+    </div>
+
+    <p class="flash" id="flash" hidden aria-live="polite"></p>
+
+    <div class="dash__grid">
+
+      <div>
+        <div class="card">
+          <p class="card__title">Aktueller Verzug</p>
+          <p class="card__sub">Was die Praxis tatsächlich hinter dem Plan liegt.</p>
+          <div class="verzug"><strong id="verzugVal">0</strong><em>Minuten</em></div>
+          <div class="steps">
+            <button data-delta="-10">−10</button>
+            <button data-delta="-5">−5</button>
+            <button data-delta="5">+5</button>
+            <button data-delta="10">+10</button>
+          </div>
+          <button class="btn btn--ghost" id="btnAufgerufen">Patient aufgerufen</button>
+          <p class="card__sub" style="margin:10px 0 0">Ein Klick pro Aufruf — daraus berechnet sich der Verzug selbst. Das ist der Weg, der im Praxisalltag funktioniert.</p>
+        </div>
+
+        <div class="card">
+          <p class="card__title">An die Patienten weitergegeben</p>
+          <p class="card__sub">Nie der volle Verzug. Sicherheitspuffer bleibt in der Praxis.</p>
+          <div class="outcome">
+            <p class="outcome__k">Patienten kommen</p>
+            <p class="outcome__v" id="outVal">wie geplant</p>
+            <p class="outcome__why" id="outWhy"></p>
+          </div>
+          <button class="btn" id="btnSenden" style="margin-top:14px">Aktualisierung senden</button>
+          <p class="card__sub" style="margin:10px 0 0" id="lastUpdate">Noch nicht aktualisiert.</p>
+        </div>
+
+        <div class="card">
+          <p class="card__title">Einstellungen der Praxis</p>
+          <div class="setting">
+            <label for="setPuffer">Sicherheitspuffer
+              <small>Minuten, die vom Verzug abgezogen werden, bevor er rausgeht.</small>
+            </label>
+            <input type="number" id="setPuffer" min="0" max="60" step="5">
+          </div>
+          <div class="setting">
+            <label for="setSchwelle">Mindestanzeige
+              <small>Unter diesem Wert erfährt der Patient nichts.</small>
+            </label>
+            <input type="number" id="setSchwelle" min="0" max="60" step="5">
+          </div>
+        </div>
+      </div>
+
+      <div>
+        <div class="card">
+          <p class="card__title">Sprechstunde heute</p>
+          <p class="card__sub">Verschobene Zeiten in Orange. „Notfall“ markierte Termine werden nie auf morgen verlegt.</p>
+          <ul class="counts">
+            <li><div><strong id="cntGesamt">0</strong><span>Termine heute</span></div></li>
+            <li><div><strong id="cntOffen">0</strong><span>noch offen</span></div></li>
+            <li><div><strong id="cntEnde">–:–</strong><span>letzter Termin endet</span></div></li>
+          </ul>
+          <p class="notice notice--warn" id="ueberzug" hidden></p>
+          <ul class="plan" id="plan"></ul>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+</main>
+
+<script>
+(function(){
+  "use strict";
+
+  /* ============================================================
+     1. DATEN  — in einem echten Produkt käme das von einem Server
+     ============================================================ */
+
+  var STAEDTE = ["Köln","Düsseldorf","Essen","Münster","Bonn"];
+  var FACHRICHTUNGEN = ["Hausarzt","Zahnarzt","Orthopäde","Hautarzt"];
+
+  var PRAXEN = [
+    {id:1,  name:"Praxis Dr. Behrens",            fach:"Hausarzt",  stadt:"Köln",       viertel:"Ehrenfeld",   adresse:"Venloer Str. 142, 50823 Köln",      tel:"0221 55 44 21", verzug:35},
+    {id:2,  name:"Hausarztzentrum Severinsviertel", fach:"Hausarzt",  stadt:"Köln",       viertel:"Altstadt-Süd", adresse:"Severinstr. 88, 50678 Köln",       tel:"0221 31 90 07", verzug:0},
+    {id:3,  name:"Zahnärzte am Rudolfplatz",      fach:"Zahnarzt",  stadt:"Köln",       viertel:"Neustadt-Süd", adresse:"Habsburgerring 2, 50674 Köln",     tel:"0221 24 11 55", verzug:15},
+    {id:4,  name:"Dr. Okonkwo — Dermatologie",    fach:"Hautarzt",  stadt:"Köln",       viertel:"Sülz",         adresse:"Zülpicher Str. 301, 50937 Köln",   tel:"0221 94 02 18", verzug:50},
+    {id:5,  name:"Orthopädie Rheinpark",          fach:"Orthopäde", stadt:"Köln",       viertel:"Deutz",        adresse:"Siegburger Str. 15, 50679 Köln",   tel:"0221 88 07 30", verzug:10},
+    {id:6,  name:"Praxis Dr. Vogt & Kollegen",    fach:"Hausarzt",  stadt:"Düsseldorf", viertel:"Bilk",         adresse:"Friedrichstr. 60, 40217 Düsseldorf", tel:"0211 33 48 90", verzug:20},
+    {id:7,  name:"Zahnklinik Königsallee",        fach:"Zahnarzt",  stadt:"Düsseldorf", viertel:"Stadtmitte",   adresse:"Königsallee 44, 40212 Düsseldorf", tel:"0211 86 22 14", verzug:0},
+    {id:8,  name:"Hautarztpraxis Oberkassel",     fach:"Hautarzt",  stadt:"Düsseldorf", viertel:"Oberkassel",   adresse:"Luegallee 71, 40545 Düsseldorf",   tel:"0211 55 71 06", verzug:40},
+    {id:9,  name:"Gemeinschaftspraxis Rüttenscheid", fach:"Hausarzt", stadt:"Essen",     viertel:"Rüttenscheid", adresse:"Rüttenscheider Str. 180, 45131 Essen", tel:"0201 77 31 25", verzug:25},
+    {id:10, name:"Orthopädie am Baldeneysee",     fach:"Orthopäde", stadt:"Essen",      viertel:"Werden",       adresse:"Heckstr. 9, 45239 Essen",          tel:"0201 49 08 62", verzug:5},
+    {id:11, name:"Zahnarztpraxis Dr. Albers",     fach:"Zahnarzt",  stadt:"Münster",    viertel:"Kreuzviertel", adresse:"Kanalstr. 23, 48147 Münster",      tel:"0251 62 14 77", verzug:0},
+    {id:12, name:"Praxis am Aasee",               fach:"Hausarzt",  stadt:"Münster",    viertel:"Aaseestadt",   adresse:"Weseler Str. 210, 48151 Münster",  tel:"0251 87 40 19", verzug:30},
+    {id:13, name:"Dermatologie Bonn-Süd",         fach:"Hautarzt",  stadt:"Bonn",       viertel:"Südstadt",     adresse:"Reuterstr. 51, 53113 Bonn",        tel:"0228 21 55 40", verzug:45},
+    {id:14, name:"Orthopädische Praxis Beuel",    fach:"Orthopäde", stadt:"Bonn",       viertel:"Beuel",        adresse:"Friedrich-Breuer-Str. 70, 53225 Bonn", tel:"0228 46 70 12", verzug:0}
+  ];
+
+  // Jede Praxis bekommt Standard-Einstellungen und einen Terminplan
+  PRAXEN.forEach(function(p){
+    p.puffer = 20;         // Minuten, die nie weitergegeben werden
+    p.schwelle = 15;       // unter diesem Wert erfährt der Patient nichts
+    p.aktualisiert = null; // Zeitpunkt der letzten gesendeten Aktualisierung
+    p.schliesst = 18;      // Uhr
+    p.termine = null;      // wird beim ersten Öffnen erzeugt
+  });
+
+  var TERMINARTEN = [
+    {art:"Kontrolle",    dauer:10},
+    {art:"Beratung",     dauer:15},
+    {art:"Blutabnahme",  dauer:10},
+    {art:"Erstgespräch", dauer:30},
+    {art:"Impfung",      dauer:10},
+    {art:"Nachsorge",    dauer:20}
+  ];
+
+  /* ============================================================
+     2. HILFSFUNKTIONEN
+     ============================================================ */
+
+  function hhmm(d){
+    return String(d.getHours()).padStart(2,"0") + ":" + String(d.getMinutes()).padStart(2,"0");
+  }
+  function plusMin(d, m){ return new Date(d.getTime() + m*60000); }
+  function minDiff(a, b){ return Math.round((a - b)/60000); }
+  function abRunden5(m){ return Math.floor(m/5)*5; }
+
+  // Terminplan rund um die aktuelle Uhrzeit erzeugen, damit die Demo
+  // zu jeder Tageszeit plausibel aussieht.
+  function terminplan(praxis){
+    if(praxis.termine) return praxis.termine;
+    var jetzt = new Date();
+    var raster = new Date(jetzt);
+    raster.setSeconds(0,0);
+    raster.setMinutes(Math.floor(raster.getMinutes()/15)*15);
+    var start = plusMin(raster, -8*15);
+
+    var liste = [];
+    for(var i=0;i<18;i++){
+      var plan = plusMin(start, i*15);
+      var typ = TERMINARTEN[(praxis.id + i) % TERMINARTEN.length];
+      liste.push({
+        id: i,
+        plan: plan,
+        art: typ.art,
+        dauer: typ.dauer,
+        erledigt: minDiff(jetzt, plan) > 45,
+        notfall: (praxis.id + i) % 7 === 3,
+        verlegt: false
+      });
+    }
+    praxis.termine = liste;
+    return liste;
+  }
+
+  /* --- Die zentrale Regel: was erfährt der Patient? --- */
+  function weitergabe(praxis){
+    var nachPuffer = praxis.verzug - praxis.puffer;
+    if(nachPuffer < praxis.schwelle) {
+      return {minuten:0, grund:"unter Schwelle", nachPuffer:nachPuffer};
+    }
+    return {minuten: abRunden5(nachPuffer), grund:"weitergegeben", nachPuffer:nachPuffer};
+  }
+
+  function stufe(min){
+    if(min <= 0) return "ok";
+    if(min <= 30) return "mid";
+    return "high";
+  }
+  function statusText(min){
+    if(min <= 0) return "im Plan";
+    return "+" + min + " Min";
+  }
+
+  function praxisById(id){
+    for(var i=0;i<PRAXEN.length;i++){ if(PRAXEN[i].id === id) return PRAXEN[i]; }
+    return null;
+  }
+
+  /* ============================================================
+     3. ZUSTAND
+     ============================================================ */
+
+  var standardTermin = (function(){
+    var t = plusMin(new Date(), 50);
+    t.setMinutes(Math.round(t.getMinutes()/15)*15, 0, 0);
+    return t;
+  })();
+
+  var patient = {
+    screen: "suche",
+    stadt: "Köln",
+    fach: null,
+    query: "",
+    praxisId: null,
+    termin: standardTermin,
+    fern: false,
+    trotzdem: false,
+    erweitert: false
+  };
+
+  var dash = { praxisId: 1 };
+
+  /* ============================================================
+     4. PATIENTENANSICHT
+     ============================================================ */
+
+  var app = document.getElementById("app");
+
+  function terminJetzt(){
+    if(!patient.fern) return patient.termin;
+    var m = new Date();
+    m.setDate(m.getDate()+1);
+    m.setHours(9,0,0,0);
+    return m;
+  }
+
+  function renderPatient(){
+    if(patient.screen === "suche") return renderSuche();
+    if(patient.screen === "liste") return renderListe();
+    return renderDetail();
+  }
+
+  function renderSuche(){
+    app.innerHTML =
+      '<p class="app__kicker">Praxispuls</p>' +
+      '<h1 class="app__title">Wie lange wartet<br>Ihre Praxis gerade?</h1>' +
+      '<div class="field">' +
+        '<label for="pStadt">Ort</label>' +
+        '<select id="pStadt">' + STAEDTE.map(function(s){
+          return '<option' + (s===patient.stadt?' selected':'') + '>' + s + '</option>';
+        }).join("") + '</select>' +
+      '</div>' +
+      '<div class="field">' +
+        '<label>Fachrichtung</label>' +
+        '<div class="chips" id="pFach">' + FACHRICHTUNGEN.map(function(f){
+          return '<button class="chip" aria-pressed="' + (patient.fach===f) + '" data-fach="' + f + '">' + f + '</button>';
+        }).join("") + '</div>' +
+      '</div>' +
+      '<div class="field">' +
+        '<label for="pQuery">Oder Praxis direkt suchen</label>' +
+        '<input type="search" id="pQuery" placeholder="z. B. Behrens" value="' + patient.query + '">' +
+      '</div>' +
+      '<div class="actions"><button class="btn" id="pGo">Praxen anzeigen</button></div>';
+
+    document.getElementById("pStadt").onchange = function(e){ patient.stadt = e.target.value; };
+    document.getElementById("pQuery").oninput = function(e){ patient.query = e.target.value; };
+    document.getElementById("pFach").onclick = function(e){
+      var b = e.target.closest("[data-fach]");
+      if(!b) return;
+      patient.fach = (patient.fach === b.dataset.fach) ? null : b.dataset.fach;
+      renderSuche();
+    };
+    document.getElementById("pGo").onclick = function(){
+      patient.screen = "liste";
+      renderPatient();
+    };
+  }
+
+  function treffer(){
+    var q = patient.query.trim().toLowerCase();
+    return PRAXEN.filter(function(p){
+      if(q) return (p.name + " " + p.stadt + " " + p.viertel).toLowerCase().indexOf(q) !== -1;
+      if(p.stadt !== patient.stadt) return false;
+      if(patient.fach && p.fach !== patient.fach) return false;
+      return true;
+    });
+  }
+
+  function renderListe(){
+    var liste = treffer();
+    var kopf = patient.query.trim()
+      ? 'Suche „' + patient.query.trim() + '“'
+      : patient.stadt + (patient.fach ? " · " + patient.fach : "");
+
+    app.innerHTML =
+      '<button class="backlink" id="pBack">Zurück zur Suche</button>' +
+      '<h1 class="app__title">' + liste.length + ' Praxen</h1>' +
+      '<p class="app__kicker" style="margin:-14px 0 10px">' + kopf + '</p>' +
+      (liste.length
+        ? '<ul class="results">' + liste.map(function(p){
+            var w = weitergabe(p);
+            var s = stufe(w.minuten);
+            return '<li><button class="result" data-id="' + p.id + '">' +
+              '<span class="result__body">' +
+                '<span class="result__name">' + p.name + '</span>' +
+                '<span class="result__meta">' + p.fach + ' · ' + p.viertel + '</span>' +
+              '</span>' +
+              '<span class="pill pill--' + s + '">' + statusText(w.minuten) + '</span>' +
+            '</button></li>';
+          }).join("") + '</ul>'
+        : '<p class="empty">Keine Praxis gefunden. Praxispuls zeigt nur Praxen, die mitmachen — das ist der Vertriebsjob.</p>');
+
+    document.getElementById("pBack").onclick = function(){ patient.screen = "suche"; renderPatient(); };
+    var ul = app.querySelector(".results");
+    if(ul) ul.onclick = function(e){
+      var b = e.target.closest("[data-id]");
+      if(!b) return;
+      patient.praxisId = Number(b.dataset.id);
+      patient.screen = "detail";
+      patient.trotzdem = false;
+      patient.erweitert = false;
+      renderPatient();
+    };
+  }
+
+  function renderDetail(){
+    var p = praxisById(patient.praxisId);
+    var w = weitergabe(p);
+    var termin = terminJetzt();
+    var jetzt = new Date();
+    var stundenHin = (termin - jetzt)/3600000;
+    var zuFrueh = stundenHin > 2 && !patient.trotzdem;
+
+    var kommen = plusMin(termin, w.minuten);
+
+    var html =
+      '<button class="backlink" id="dBack">Zurück zur Liste</button>' +
+      '<div class="praxishead">' +
+        '<h2>' + p.name + '</h2>' +
+        '<p>' + p.adresse + '</p>' +
+      '</div>';
+
+    if(zuFrueh){
+      html +=
+        '<div class="hero">' +
+          '<p class="hero__label">Ihr Termin</p>' +
+          '<p class="hero__time">' + hhmm(termin) + '</p>' +
+          '<p class="hero__delta hero__delta--ok">Noch ' + Math.round(stundenHin) + ' Stunden hin</p>' +
+        '</div>' +
+        '<p class="notice">Die Verzögerung wird <strong>2 Stunden vor Ihrem Termin</strong> freigegeben. So früh am Tag sagt sie noch nichts aus — bis dahin ändert sich fast immer noch etwas.</p>' +
+        '<button class="linkish" id="dTrotzdem">Aktuellen Stand trotzdem ansehen</button>';
+    } else {
+      html +=
+        '<div class="hero" aria-live="polite">' +
+          '<p class="hero__label">' + (w.minuten > 0 ? "Kommen Sie um" : "Kommen Sie wie geplant um") + '</p>' +
+          '<p class="hero__time">' + hhmm(kommen) + '</p>' +
+          (w.minuten > 0
+            ? '<p class="hero__delta hero__delta--up">' + w.minuten + ' Minuten später als Ihr Termin um ' + hhmm(termin) + '</p>'
+            : '<p class="hero__delta hero__delta--ok">Die Praxis liegt im Plan</p>') +
+        '</div>' +
+        '<dl>' +
+          '<div class="factrow"><dt>Ihr Termin</dt><dd>' + hhmm(termin) + '</dd></div>' +
+          '<div class="factrow"><dt>Zuletzt aktualisiert</dt><dd>' + (p.aktualisiert ? hhmm(p.aktualisiert) + " Uhr" : "noch nicht heute") + '</dd></div>' +
+        '</dl>';
+
+      if(patient.trotzdem && stundenHin > 2){
+        html += '<p class="notice notice--warn"><strong>Unzuverlässig.</strong> Bis zu Ihrem Termin sind noch Stunden — dieser Wert ändert sich mit hoher Wahrscheinlichkeit.</p>';
+      }
+
+      if(w.minuten === 0 && p.verzug > 0){
+        html += '<p class="notice">Die Praxis liegt aktuell etwas hinter dem Plan, aber zu wenig, um Ihren Termin zu verschieben. Kommen Sie wie vereinbart.</p>';
+      }
+
+      if(patient.erweitert){
+        html += '<p class="notice">Roher Verzug der Praxis: <strong>' + p.verzug + ' Minuten</strong>. Praxispuls gibt davon ' + w.minuten +
+                ' Minuten weiter und behält ' + p.puffer + ' Minuten Puffer — damit Sie nicht zu spät kommen, wenn ein Patient vor Ihnen ausfällt.</p>';
+      }
+      html += '<button class="linkish" id="dErw">' + (patient.erweitert ? "Details ausblenden" : "Wie wird das berechnet?") + '</button>';
+    }
+
+    html +=
+      '<div class="actions">' +
+        '<button class="btn" id="dCall">Praxis anrufen · ' + p.tel + '</button>' +
+        '<button class="btn btn--ghost btn--row" id="dCancel">Termin absagen</button>' +
+      '</div>';
+
+    app.innerHTML = html;
+
+    document.getElementById("dBack").onclick = function(){ patient.screen = "liste"; renderPatient(); };
+    var t = document.getElementById("dTrotzdem");
+    if(t) t.onclick = function(){ patient.trotzdem = true; renderPatient(); };
+    var e2 = document.getElementById("dErw");
+    if(e2) e2.onclick = function(){ patient.erweitert = !patient.erweitert; renderPatient(); };
+    document.getElementById("dCall").onclick = function(){
+      alert("Im Prototyp nur angedeutet.\n\nAuf dem Handy würde hier der Telefonanruf an " + p.tel + " starten.");
+    };
+    document.getElementById("dCancel").onclick = function(){
+      alert("Im Prototyp nur angedeutet.\n\nHier entsteht der direkte Weg zur Absage, wenn die Verzögerung nicht in den Tag des Patienten passt.");
+    };
+
+    renderMath(p, w);
+  }
+
+  function renderMath(p, w){
+    var box = document.getElementById("mathBox");
+    if(!box) return;
+    if(!p){ box.textContent = "Wählen Sie eine Praxis, um die Rechnung zu sehen."; return; }
+    box.innerHTML =
+      "Verzug der Praxis <b>" + p.verzug + " Min</b><br>" +
+      "− Sicherheitspuffer <b>" + p.puffer + " Min</b><br>" +
+      "= <b>" + w.nachPuffer + " Min</b>" +
+      (w.minuten === 0
+        ? " — liegt unter der Mindestanzeige von " + p.schwelle + " Min, also <b>keine Anzeige</b>."
+        : ", abgerundet auf 5 Minuten: <b>" + w.minuten + " Min</b> gehen an den Patienten.");
+  }
+
+  /* ============================================================
+     5. PRAXIS-DASHBOARD
+     ============================================================ */
+
+  function renderDash(){
+    var p = praxisById(dash.praxisId);
+    var liste = terminplan(p);
+    var w = weitergabe(p);
+    var jetzt = new Date();
+
+    document.getElementById("dashName").textContent = p.name;
+    document.getElementById("dashAddr").textContent = p.adresse + " · " + p.fach;
+    document.getElementById("verzugVal").textContent = p.verzug;
+    document.getElementById("setPuffer").value = p.puffer;
+    document.getElementById("setSchwelle").value = p.schwelle;
+
+    document.getElementById("outVal").textContent =
+      w.minuten > 0 ? "+" + w.minuten + " Minuten später" : "wie geplant";
+    document.getElementById("outWhy").textContent =
+      w.minuten > 0
+        ? p.verzug + " Min Verzug − " + p.puffer + " Min Puffer, abgerundet auf 5."
+        : "Verzug minus Puffer liegt unter der Mindestanzeige von " + p.schwelle + " Min. Die Patienten werden nicht beunruhigt.";
+
+    document.getElementById("lastUpdate").textContent =
+      p.aktualisiert ? "Zuletzt gesendet: " + hhmm(p.aktualisiert) + " Uhr." : "Noch nicht aktualisiert.";
+
+    var offen = liste.filter(function(t){ return !t.erledigt && !t.verlegt; });
+    document.getElementById("cntGesamt").textContent = liste.filter(function(t){ return !t.verlegt; }).length;
+    document.getElementById("cntOffen").textContent = offen.length;
+
+    var letzter = offen.length ? offen[offen.length-1] : null;
+    var endeZeit = letzter ? plusMin(plusMin(letzter.plan, p.verzug), letzter.dauer) : null;
+    document.getElementById("cntEnde").textContent = endeZeit ? hhmm(endeZeit) : "–:–";
+
+    var ueber = document.getElementById("ueberzug");
+    if(endeZeit && endeZeit.getHours() >= p.schliesst){
+      ueber.hidden = false;
+      ueber.innerHTML = '<strong>Sprechstunde läuft über.</strong> Mit dem aktuellen Verzug endet der letzte Termin um ' +
+        hhmm(endeZeit) + ' Uhr, geschlossen wird ' + p.schliesst + ':00. ' +
+        '<button class="linkish" id="btnVerlegen" style="margin-top:8px">Termine ohne Notfallstatus auf morgen verlegen</button>';
+      var bv = document.getElementById("btnVerlegen");
+      if(bv) bv.onclick = function(){
+        var n = 0;
+        liste.forEach(function(t){
+          if(t.erledigt || t.verlegt || t.notfall) return;
+          var neu = plusMin(t.plan, p.verzug);
+          if(neu.getHours() >= p.schliesst){ t.verlegt = true; n++; }
+        });
+        zeigeFlash(n ? n + " Termine auf morgen verlegt. Notfälle sind geblieben." : "Keine verlegbaren Termine gefunden.");
+        renderDash();
+      };
+    } else {
+      ueber.hidden = true;
+    }
+
+    document.getElementById("plan").innerHTML = liste.map(function(t){
+      var neu = plusMin(t.plan, p.verzug);
+      var cls = t.erledigt ? "is-done" : (t.verlegt ? "is-moved" : "");
+      var neuText = t.erledigt ? "erledigt" : (t.verlegt ? "morgen" : (p.verzug > 0 ? hhmm(neu) : ""));
+      return '<li class="' + cls + '">' +
+        '<span class="plan__time">' + hhmm(t.plan) + '</span>' +
+        '<span class="plan__new">' + neuText + '</span>' +
+        '<span class="plan__art">' + t.art + ' <small>· ' + t.dauer + ' Min</small></span>' +
+        '<button class="plan__flag" data-t="' + t.id + '" aria-pressed="' + t.notfall + '">Notfall</button>' +
+      '</li>';
+    }).join("");
+
+    document.getElementById("plan").onclick = function(e){
+      var b = e.target.closest("[data-t]");
+      if(!b) return;
+      var t = liste[Number(b.dataset.t)];
+      t.notfall = !t.notfall;
+      renderDash();
+    };
+
+    document.getElementById("dashClock").textContent = hhmm(jetzt);
+    document.getElementById("dashDate").textContent = jetzt.toLocaleDateString("de-DE",{weekday:"long",day:"numeric",month:"long"});
+
+    if(patient.praxisId === p.id && patient.screen === "detail") renderPatient();
+    renderMath(praxisById(patient.praxisId), weitergabe(praxisById(patient.praxisId) || p));
+  }
+
+  var flashTimer = null;
+  function zeigeFlash(text){
+    var f = document.getElementById("flash");
+    f.textContent = text;
+    f.hidden = false;
+    clearTimeout(flashTimer);
+    flashTimer = setTimeout(function(){ f.hidden = true; }, 4000);
+  }
+
+  document.querySelector(".steps").onclick = function(e){
+    var b = e.target.closest("[data-delta]");
+    if(!b) return;
+    var p = praxisById(dash.praxisId);
+    p.verzug = Math.max(0, Math.min(180, p.verzug + Number(b.dataset.delta)));
+    renderDash();
+  };
+
+  document.getElementById("btnAufgerufen").onclick = function(){
+    var p = praxisById(dash.praxisId);
+    var liste = terminplan(p);
+    var naechster = null;
+    for(var i=0;i<liste.length;i++){
+      if(!liste[i].erledigt && !liste[i].verlegt){ naechster = liste[i]; break; }
+    }
+    if(!naechster){ zeigeFlash("Alle Termine für heute sind durch."); return; }
+    naechster.erledigt = true;
+    var gemessen = minDiff(new Date(), naechster.plan);
+    p.verzug = Math.max(0, gemessen);
+    zeigeFlash("Termin " + hhmm(naechster.plan) + " aufgerufen um " + hhmm(new Date()) +
+               " — Verzug automatisch auf " + p.verzug + " Min gesetzt.");
+    renderDash();
+  };
+
+  document.getElementById("btnSenden").onclick = function(){
+    var p = praxisById(dash.praxisId);
+    p.aktualisiert = new Date();
+    var w = weitergabe(p);
+    zeigeFlash(w.minuten > 0
+      ? "Gesendet: Patienten sehen jetzt +" + w.minuten + " Minuten."
+      : "Gesendet: keine Verzögerung für die Patienten sichtbar.");
+    renderDash();
+  };
+
+  document.getElementById("setPuffer").oninput = function(e){
+    var p = praxisById(dash.praxisId);
+    p.puffer = Math.max(0, Number(e.target.value) || 0);
+    renderDash();
+  };
+  document.getElementById("setSchwelle").oninput = function(e){
+    var p = praxisById(dash.praxisId);
+    p.schwelle = Math.max(0, Number(e.target.value) || 0);
+    renderDash();
+  };
+
+  /* ============================================================
+     6. DEMO-STEUERUNG UND ANSICHTSWECHSEL
+     ============================================================ */
+
+  var demoTermin = document.getElementById("demoTermin");
+  demoTermin.value = hhmm(patient.termin);
+  demoTermin.onchange = function(e){
+    var teile = e.target.value.split(":");
+    if(teile.length !== 2) return;
+    var d = new Date();
+    d.setHours(Number(teile[0]), Number(teile[1]), 0, 0);
+    patient.termin = d;
+    patient.fern = false;
+    document.getElementById("demoFern").setAttribute("aria-pressed","false");
+    renderPatient();
+  };
+
+  document.getElementById("demoFern").onclick = function(){
+    patient.fern = !patient.fern;
+    patient.trotzdem = false;
+    this.setAttribute("aria-pressed", String(patient.fern));
+    renderPatient();
+  };
+
+  var tabP = document.getElementById("tab-patient");
+  var tabD = document.getElementById("tab-praxis");
+  function wechsel(zuPatient){
+    tabP.setAttribute("aria-selected", String(zuPatient));
+    tabD.setAttribute("aria-selected", String(!zuPatient));
+    document.getElementById("view-patient").hidden = !zuPatient;
+    document.getElementById("view-praxis").hidden = zuPatient;
+    if(!zuPatient){
+      // Dashboard zeigt die Praxis, die der Patient gerade ansieht
+      if(patient.praxisId) dash.praxisId = patient.praxisId;
+      renderDash();
+    } else {
+      renderPatient();
+    }
+  }
+  tabP.onclick = function(){ wechsel(true); };
+  tabD.onclick = function(){ wechsel(false); };
+
+  function uhr(){
+    var jetzt = new Date();
+    document.getElementById("phoneClock").textContent = hhmm(jetzt);
+    document.getElementById("dashClock").textContent = hhmm(jetzt);
+  }
+
+  /* ============================================================
+     7. START
+     ============================================================ */
+
+  renderPatient();
+  renderDash();
+  uhr();
+  setInterval(uhr, 20000);
+
+})();
+</script>
+</body>
+</html>
