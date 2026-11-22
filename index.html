@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Praxispuls — Wartezeiten-Demo</title>
+<title>WaitAway — Wartezeiten-Demo</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Instrument+Sans:ital,wght@0,400..700;1,400..700&display=swap" rel="stylesheet">
@@ -26,7 +26,6 @@
   }
 
   *{box-sizing:border-box}
-
   html,body{margin:0;padding:0}
 
   body{
@@ -41,7 +40,6 @@
 
   button{font-family:inherit;font-size:inherit;cursor:pointer}
   input,select{font-family:inherit;font-size:inherit;color:inherit}
-
   :focus-visible{outline:2.5px solid var(--teal);outline-offset:2px;border-radius:4px}
 
   @media (prefers-reduced-motion:reduce){
@@ -49,122 +47,70 @@
   }
 
   /* ---------- Demo-Leiste (gehört nicht zum Produkt) ---------- */
-  .demobar{
-    background:var(--ink);
-    color:#f3f5f1;
-    padding:14px 22px;
-    display:flex;
-    align-items:center;
-    gap:26px;
-    flex-wrap:wrap;
-  }
+  .demobar{background:var(--ink);color:#f3f5f1;padding:14px 22px;display:flex;align-items:center;gap:26px;flex-wrap:wrap}
   .demobar__brand{font-weight:600;letter-spacing:-.01em;font-size:1.0625rem}
   .demobar__brand span{color:#8fc4b7;font-weight:400}
   .demobar__switch{display:flex;gap:4px;background:rgba(255,255,255,.1);padding:4px;border-radius:999px;margin-left:auto}
-  .demobar__tab{
-    border:0;background:transparent;color:#cfd8d3;
-    padding:7px 16px;border-radius:999px;font-weight:500;
-    transition:background .15s,color .15s;
-  }
+  .demobar__tab{border:0;background:transparent;color:#cfd8d3;padding:7px 16px;border-radius:999px;font-weight:500;transition:background .15s,color .15s}
   .demobar__tab[aria-selected="true"]{background:var(--surface);color:var(--ink)}
-  .demobar__note{font-size:.8125rem;color:#9aa8a2;max-width:34ch;line-height:1.35}
+  .demobar__note{font-size:.8125rem;color:#9aa8a2;max-width:36ch;line-height:1.35}
 
-  /* ---------- Layout ---------- */
   .stage{padding:34px 22px 70px}
-  .wrap{max-width:1180px;margin:0 auto}
+  .wrap{max-width:1240px;margin:0 auto}
 
   /* ---------- Patientenansicht: Telefon ---------- */
   .patient-layout{display:grid;grid-template-columns:minmax(0,370px) minmax(0,1fr);gap:46px;align-items:start}
   @media (max-width:860px){.patient-layout{grid-template-columns:1fr;gap:30px}}
 
-  .phone{
-    background:var(--ink);
-    border-radius:38px;
-    padding:11px;
-    box-shadow:0 22px 50px -24px rgba(21,33,31,.5);
-    max-width:370px;
-    width:100%;
-  }
-  .phone__screen{
-    background:var(--surface);
-    border-radius:28px;
-    overflow:hidden;
-    min-height:620px;
-    display:flex;
-    flex-direction:column;
-  }
-  .phone__status{
-    display:flex;justify-content:space-between;align-items:center;
-    padding:11px 20px 3px;font-size:.75rem;color:var(--muted);font-weight:500;
-  }
+  .phone{background:var(--ink);border-radius:38px;padding:11px;box-shadow:0 22px 50px -24px rgba(21,33,31,.5);max-width:370px;width:100%}
+  .phone__screen{background:var(--surface);border-radius:28px;overflow:hidden;min-height:640px;display:flex;flex-direction:column}
+  .phone__status{display:flex;justify-content:space-between;align-items:center;padding:11px 20px 3px;font-size:.75rem;color:var(--muted);font-weight:500}
 
   .app{padding:12px 20px 26px;flex:1;display:flex;flex-direction:column}
-
   .app__kicker{font-size:.8125rem;color:var(--muted);margin:0 0 3px}
   .app__title{font-size:1.5rem;font-weight:600;letter-spacing:-.022em;line-height:1.2;margin:0 0 20px}
 
   .field{margin-bottom:17px}
   .field label{display:block;font-size:.8125rem;color:var(--muted);margin-bottom:6px}
-  .field select,.field input{
-    width:100%;padding:11px 13px;border:1px solid var(--line);
-    border-radius:10px;background:var(--surface);
-  }
+  .field select,.field input{width:100%;padding:11px 13px;border:1px solid var(--line);border-radius:10px;background:var(--surface)}
   .field select{appearance:none;background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='12' height='8'><path d='M1 1l5 5 5-5' stroke='%2369736d' stroke-width='1.6' fill='none' stroke-linecap='round'/></svg>");background-repeat:no-repeat;background-position:right 13px center}
 
   .chips{display:flex;flex-wrap:wrap;gap:7px}
-  .chip{
-    border:1px solid var(--line);background:var(--surface);color:var(--ink);
-    padding:8px 14px;border-radius:999px;font-size:.9375rem;
-  }
+  .chip{border:1px solid var(--line);background:var(--surface);color:var(--ink);padding:8px 14px;border-radius:999px;font-size:.9375rem}
   .chip[aria-pressed="true"]{background:var(--teal);border-color:var(--teal);color:#fff}
 
-  .btn{
-    display:block;width:100%;text-align:center;border:0;
-    background:var(--teal);color:#fff;font-weight:600;
-    padding:14px;border-radius:11px;
-  }
+  .btn{display:block;width:100%;text-align:center;border:0;background:var(--teal);color:#fff;font-weight:600;padding:14px;border-radius:11px}
   .btn:hover{background:var(--teal-dark)}
   .btn--ghost{background:var(--surface);color:var(--ink);border:1px solid var(--line);font-weight:500}
   .btn--ghost:hover{background:var(--paper)}
   .btn--row{margin-top:9px}
 
-  .backlink{
-    border:0;background:transparent;color:var(--muted);padding:0;
-    margin-bottom:14px;text-align:left;font-size:.9375rem;
-  }
+  .backlink{border:0;background:transparent;color:var(--muted);padding:0;margin-bottom:14px;text-align:left;font-size:.9375rem}
   .backlink:hover{color:var(--ink)}
 
   .results{list-style:none;margin:4px 0 0;padding:0;overflow-y:auto;flex:1}
   .results li + li{border-top:1px solid var(--line-soft)}
-  .result{
-    width:100%;border:0;background:transparent;text-align:left;
-    padding:14px 2px;display:flex;gap:12px;align-items:flex-start;
-  }
+  .result{width:100%;border:0;background:transparent;text-align:left;padding:14px 2px;display:flex;gap:12px;align-items:flex-start}
   .result:hover{background:var(--paper)}
   .result__body{flex:1;min-width:0}
   .result__name{font-weight:600;letter-spacing:-.01em;display:block}
   .result__meta{font-size:.8125rem;color:var(--muted);display:block;margin-top:1px}
 
-  .pill{
-    flex-shrink:0;font-size:.75rem;font-weight:600;padding:4px 9px;border-radius:7px;white-space:nowrap;
-  }
+  .pill{flex-shrink:0;font-size:.75rem;font-weight:600;padding:4px 9px;border-radius:7px;white-space:nowrap}
   .pill--ok{background:var(--teal-wash);color:var(--teal-dark)}
   .pill--mid{background:var(--amber-wash);color:var(--amber)}
   .pill--high{background:var(--red-wash);color:var(--red)}
+  .pill--neutral{background:var(--paper);color:var(--muted)}
 
   .empty{color:var(--muted);font-size:.9375rem;padding:22px 2px;margin:0}
 
-  /* Detailseite */
   .praxishead{border-bottom:1px solid var(--line-soft);padding-bottom:15px;margin-bottom:20px}
   .praxishead h2{font-size:1.25rem;font-weight:600;letter-spacing:-.02em;margin:0 0 3px;line-height:1.25}
   .praxishead p{margin:0;font-size:.875rem;color:var(--muted)}
 
   .hero{text-align:center;padding:6px 0 20px}
   .hero__label{font-size:.9375rem;color:var(--muted);margin:0 0 2px}
-  .hero__time{
-    font-size:4.25rem;font-weight:600;letter-spacing:-.045em;line-height:.98;margin:0;
-    font-feature-settings:"tnum";
-  }
+  .hero__time{font-size:4.25rem;font-weight:600;letter-spacing:-.045em;line-height:.98;margin:0;font-feature-settings:"tnum"}
   .hero__delta{margin:9px 0 0;font-size:.9375rem;font-weight:500}
   .hero__delta--up{color:var(--amber)}
   .hero__delta--ok{color:var(--teal-dark)}
@@ -173,25 +119,18 @@
   .factrow dt{color:var(--muted);margin:0}
   .factrow dd{margin:0;font-weight:500;text-align:right}
 
-  .notice{
-    background:var(--paper);border-radius:11px;padding:13px 14px;
-    font-size:.8438rem;line-height:1.45;color:var(--muted);margin:18px 0 0;
-  }
+  .notice{background:var(--paper);border-radius:11px;padding:13px 14px;font-size:.8438rem;line-height:1.45;color:var(--muted);margin:18px 0 0}
   .notice strong{color:var(--ink);font-weight:600}
   .notice--warn{background:var(--amber-wash);color:#7d4f06}
   .notice--warn strong{color:#5e3b04}
 
-  .linkish{
-    border:0;background:transparent;padding:0;color:var(--teal-dark);
-    font-weight:500;text-decoration:underline;text-underline-offset:2px;font-size:.875rem;margin-top:10px;
-  }
-
+  .linkish{border:0;background:transparent;padding:0;color:var(--teal-dark);font-weight:500;text-decoration:underline;text-underline-offset:2px;font-size:.875rem;margin-top:10px}
   .actions{margin-top:auto;padding-top:20px}
 
-  /* ---------- Demo-Notizen neben dem Telefon ---------- */
-  .notes{max-width:520px}
+  /* ---------- Notizen neben dem Telefon ---------- */
+  .notes{max-width:540px}
   .notes h3{font-size:1.1875rem;font-weight:600;letter-spacing:-.02em;margin:0 0 8px}
-  .notes > p{color:var(--muted);font-size:.9375rem;margin:0 0 22px;max-width:52ch}
+  .notes > p{color:var(--muted);font-size:.9375rem;margin:0 0 22px;max-width:54ch}
 
   .panel{background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);padding:19px 20px;margin-bottom:16px}
   .panel h4{margin:0 0 13px;font-size:.9375rem;font-weight:600}
@@ -203,91 +142,89 @@
   .ctrl small{display:block;color:var(--muted);font-size:.8125rem;line-height:1.35}
   .ctrl input[type="time"]{padding:7px 9px;border:1px solid var(--line);border-radius:8px}
 
-  .toggle{
-    border:1px solid var(--line);background:var(--surface);
-    padding:6px 13px;border-radius:999px;font-size:.875rem;white-space:nowrap;
-  }
+  .toggle{border:1px solid var(--line);background:var(--surface);padding:6px 13px;border-radius:999px;font-size:.875rem;white-space:nowrap}
   .toggle[aria-pressed="true"]{background:var(--ink);border-color:var(--ink);color:#fff}
 
   .math{font-size:.875rem;line-height:1.7;color:var(--muted);margin:0}
   .math b{color:var(--ink);font-weight:600}
 
   /* ---------- Praxis-Dashboard ---------- */
-  .dash__top{
-    display:flex;justify-content:space-between;align-items:flex-end;gap:20px;
-    flex-wrap:wrap;margin-bottom:22px;
-  }
+  .dash__top{display:flex;justify-content:space-between;align-items:flex-end;gap:20px;flex-wrap:wrap;margin-bottom:22px}
   .dash__id h2{margin:0;font-size:1.625rem;font-weight:600;letter-spacing:-.025em}
   .dash__id p{margin:3px 0 0;color:var(--muted);font-size:.9375rem}
   .dash__clock{text-align:right}
   .dash__clock strong{display:block;font-size:1.75rem;font-weight:600;letter-spacing:-.03em;line-height:1}
   .dash__clock span{font-size:.8125rem;color:var(--muted)}
 
-  .dash__grid{display:grid;grid-template-columns:minmax(0,340px) minmax(0,1fr);gap:20px;align-items:start}
-  @media (max-width:900px){.dash__grid{grid-template-columns:1fr}}
+  .dash__grid{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,400px);gap:20px;align-items:start}
+  @media (max-width:960px){.dash__grid{grid-template-columns:1fr}}
 
   .card{background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);padding:21px 22px}
   .card + .card{margin-top:16px}
   .card__title{margin:0 0 4px;font-size:.9375rem;font-weight:600}
   .card__sub{margin:0 0 16px;color:var(--muted);font-size:.8438rem;line-height:1.45}
 
-  .verzug{display:flex;align-items:baseline;gap:9px;margin:2px 0 16px}
-  .verzug strong{font-size:3.5rem;font-weight:600;letter-spacing:-.045em;line-height:.92}
-  .verzug em{font-style:normal;color:var(--muted);font-size:1rem}
-
-  .steps{display:flex;gap:7px;margin-bottom:11px;flex-wrap:wrap}
-  .steps button{
-    flex:1;min-width:58px;border:1px solid var(--line);background:var(--surface);
-    padding:11px 4px;border-radius:9px;font-weight:600;
+  /* Streckenliste: das Herz des Empfangsbildschirms */
+  .strecken{list-style:none;margin:0;padding:0}
+  .strecken li + li{margin-top:9px}
+  .strecke{
+    width:100%;border:1px solid var(--line);background:var(--surface);border-radius:12px;
+    padding:14px 16px;display:grid;grid-template-columns:1fr auto auto;gap:14px;align-items:center;text-align:left;
   }
+  .strecke:hover{border-color:var(--muted)}
+  .strecke[aria-current="true"]{border-color:var(--ink);background:var(--paper)}
+  .strecke__name{font-weight:600;letter-spacing:-.01em}
+  .strecke__sub{display:block;font-size:.8125rem;color:var(--muted);font-weight:400;margin-top:1px}
+  .strecke__verzug{font-size:1.5rem;font-weight:600;letter-spacing:-.03em;text-align:right;line-height:1.1}
+  .strecke__verzug small{display:block;font-size:.6875rem;color:var(--muted);font-weight:500;letter-spacing:0}
+
+  .steps{display:flex;gap:7px;margin:12px 0 0;flex-wrap:wrap}
+  .steps button{flex:1;min-width:52px;border:1px solid var(--line);background:var(--surface);padding:10px 4px;border-radius:9px;font-weight:600}
   .steps button:hover{background:var(--paper);border-color:var(--muted)}
 
-  .outcome{background:var(--teal-wash);border-radius:11px;padding:15px 16px;margin-top:4px}
+  .outcome{background:var(--teal-wash);border-radius:11px;padding:15px 16px}
   .outcome__k{margin:0;font-size:.8438rem;color:var(--teal-dark)}
-  .outcome__v{margin:1px 0 0;font-size:1.875rem;font-weight:600;letter-spacing:-.03em;color:var(--teal-dark);line-height:1.1}
+  .outcome__v{margin:1px 0 0;font-size:1.75rem;font-weight:600;letter-spacing:-.03em;color:var(--teal-dark);line-height:1.1}
   .outcome__why{margin:7px 0 0;font-size:.8125rem;color:#3f6a60;line-height:1.45}
 
-  .counts{display:flex;gap:26px;margin:0 0 2px;padding:0;list-style:none}
-  .counts div strong{display:block;font-size:1.625rem;font-weight:600;letter-spacing:-.025em;line-height:1.15}
-  .counts div span{font-size:.8125rem;color:var(--muted)}
-
-  .plan{list-style:none;margin:0;padding:0;max-height:430px;overflow-y:auto}
-  .plan li{display:flex;align-items:center;gap:13px;padding:10px 2px;border-top:1px solid var(--line-soft);font-size:.9375rem}
-  .plan li:first-child{border-top:0}
-  .plan__time{width:46px;font-weight:600;flex-shrink:0}
-  .plan__new{width:62px;flex-shrink:0;color:var(--amber);font-weight:500;font-size:.875rem}
-  .plan__art{flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
-  .plan__art small{color:var(--muted);font-weight:400}
-  .plan li.is-done{color:var(--muted)}
-  .plan li.is-done .plan__time{font-weight:500}
-  .plan li.is-moved .plan__art{text-decoration:line-through;text-decoration-color:var(--line)}
-  .plan__flag{
-    border:1px solid var(--line);background:var(--surface);color:var(--muted);
-    font-size:.75rem;padding:3px 8px;border-radius:7px;flex-shrink:0;
+  /* Zeitraster zum Antippen — ohne einen einzigen Namen */
+  .raster{list-style:none;margin:0;padding:0;max-height:420px;overflow-y:auto}
+  .raster li{display:flex;align-items:center;gap:10px;border-top:1px solid var(--line-soft)}
+  .raster li:first-child{border-top:0}
+  .rtime{
+    flex:1;display:flex;align-items:center;gap:12px;border:0;background:transparent;
+    text-align:left;padding:11px 2px;min-width:0;
   }
-  .plan__flag[aria-pressed="true"]{background:var(--red-wash);border-color:#e2bdb7;color:var(--red);font-weight:600}
+  .rtime:hover{background:var(--paper)}
+  .rtime__t{font-weight:600;width:46px;flex-shrink:0}
+  .rtime__art{flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font-size:.9375rem}
+  .rtime__art small{color:var(--muted)}
+  .rtime__st{font-size:.75rem;font-weight:600;padding:3px 8px;border-radius:7px;flex-shrink:0;background:var(--paper);color:var(--muted)}
+  .is-laeuft .rtime__t{color:var(--teal-dark)}
+  .is-laeuft .rtime__st{background:var(--teal-wash);color:var(--teal-dark)}
+  .is-erledigt{color:var(--muted)}
+  .is-entfallen .rtime__art{text-decoration:line-through;text-decoration-color:var(--line)}
+  .is-entfallen .rtime__st{background:var(--red-wash);color:var(--red)}
+  .rflag{border:1px solid var(--line);background:var(--surface);color:var(--muted);font-size:.6875rem;padding:3px 7px;border-radius:7px;flex-shrink:0;margin-right:2px}
+  .rflag[aria-pressed="true"]{background:var(--red-wash);border-color:#e2bdb7;color:var(--red);font-weight:600}
 
   .setting{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:10px 0;border-top:1px solid var(--line-soft)}
   .setting:first-of-type{border-top:0}
   .setting label{font-size:.875rem}
-  .setting label small{display:block;color:var(--muted);font-size:.8125rem;line-height:1.35;max-width:40ch}
+  .setting label small{display:block;color:var(--muted);font-size:.8125rem;line-height:1.35;max-width:38ch}
   .setting input{width:74px;padding:8px 10px;border:1px solid var(--line);border-radius:8px;text-align:right}
 
-  .flash{
-    margin:0 0 16px;padding:12px 15px;border-radius:11px;
-    background:var(--teal-wash);color:var(--teal-dark);font-size:.875rem;font-weight:500;
-  }
+  .flash{margin:0 0 16px;padding:12px 15px;border-radius:11px;background:var(--teal-wash);color:var(--teal-dark);font-size:.875rem;font-weight:500}
   .flash[hidden]{display:none}
 
   [hidden]{display:none !important}
-  .sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap}
 </style>
 </head>
 <body>
 
 <header class="demobar">
-  <div class="demobar__brand">Praxispuls <span>— Demo</span></div>
-  <p class="demobar__note">Prototyp. Beide Ansichten teilen sich dieselben Daten: ändert das Dashboard den Verzug, ändert sich die Patientenansicht.</p>
+  <div class="demobar__brand">WaitAway <span>— Demo</span></div>
+  <p class="demobar__note">Prototyp. Beide Ansichten teilen dieselben Daten. Der Verzug gehört der Behandlungsstrecke, nicht der Praxis.</p>
   <div class="demobar__switch" role="tablist" aria-label="Ansicht wählen">
     <button class="demobar__tab" role="tab" id="tab-patient" aria-selected="true" aria-controls="view-patient">Patienten-App</button>
     <button class="demobar__tab" role="tab" id="tab-praxis" aria-selected="false" aria-controls="view-praxis">Praxis-Dashboard</button>
@@ -304,7 +241,7 @@
         <div class="phone__screen">
           <div class="phone__status">
             <span id="phoneClock">–:–</span>
-            <span>Praxispuls</span>
+            <span>WaitAway</span>
           </div>
           <div class="app" id="app"></div>
         </div>
@@ -312,13 +249,13 @@
 
       <div class="notes">
         <h3>Was diese Ansicht zeigt</h3>
-        <p>Der Patient sucht Ort und Fachrichtung, wählt seine Praxis und sieht eine einzige Zahl: wann er losfahren soll. Die rohe Verzögerung der Praxis sieht er absichtlich nicht.</p>
+        <p>Der Patient sucht Ort und Fachrichtung, wählt Praxis und Behandlungsstrecke und sieht eine einzige Zahl: wann er losgehen soll. Den rohen Verzug sieht er nicht.</p>
 
         <div class="panel">
           <h4>Demo-Steuerung</h4>
           <div class="ctrl">
             <span>Termin des Patienten
-              <small>Gehört im Produkt dem Patienten, nicht der Praxis.</small>
+              <small>Liegt im Produkt nur auf dem Handy des Patienten.</small>
             </span>
             <input type="time" id="demoTermin" aria-label="Termin des Patienten">
           </div>
@@ -336,8 +273,8 @@
         </div>
 
         <div class="panel">
-          <h4>Noch nicht gebaut</h4>
-          <p>Echte Nutzerkonten, Anbindung an ein Praxisverwaltungssystem, Push-Benachrichtigungen und ein Server. Dafür braucht es Stufe 2 — siehe Antwort im Chat.</p>
+          <h4>Was euer Server davon speichert</h4>
+          <p>Pro Behandlungsstrecke genau eine Zahl und einen Zeitstempel. Keine Namen, keine Termine, keine Diagnosen — der Zeitraster im Dashboard ist eine reine Uhrzeitenspalte.</p>
         </div>
       </div>
 
@@ -362,35 +299,45 @@
 
     <div class="dash__grid">
 
+      <!-- Linke Spalte: alle Strecken auf einen Blick -->
       <div>
         <div class="card">
-          <p class="card__title">Aktueller Verzug</p>
-          <p class="card__sub">Was die Praxis tatsächlich hinter dem Plan liegt.</p>
-          <div class="verzug"><strong id="verzugVal">0</strong><em>Minuten</em></div>
+          <p class="card__title">Behandlungsstrecken</p>
+          <p class="card__sub">Jede Strecke hat ihren eigenen Verzug. Anklicken, um sie rechts zu bearbeiten.</p>
+          <ul class="strecken" id="streckenListe"></ul>
+        </div>
+
+        <div class="card">
+          <p class="card__title">Zeitraster <span id="rasterName" style="font-weight:400;color:var(--muted)"></span></p>
+          <p class="card__sub">Tippe die Planzeit des Patienten an, der gerade hereingegangen ist. Übersprungene Zeiten gelten als entfallen — eine Absage verfälscht den Verzug also nicht.</p>
+          <p class="notice notice--warn" id="ueberzug" hidden></p>
+          <ul class="raster" id="raster"></ul>
+        </div>
+      </div>
+
+      <!-- Rechte Spalte: die gewählte Strecke -->
+      <div>
+        <div class="card">
+          <p class="card__title" id="selName">—</p>
+          <p class="card__sub">Verzug direkt setzen, falls nicht angetippt wird.</p>
+          <div class="outcome">
+            <p class="outcome__k">Patienten kommen</p>
+            <p class="outcome__v" id="outVal">wie geplant</p>
+            <p class="outcome__why" id="outWhy"></p>
+          </div>
           <div class="steps">
             <button data-delta="-10">−10</button>
             <button data-delta="-5">−5</button>
             <button data-delta="5">+5</button>
             <button data-delta="10">+10</button>
           </div>
-          <button class="btn btn--ghost" id="btnAufgerufen">Patient aufgerufen</button>
-          <p class="card__sub" style="margin:10px 0 0">Ein Klick pro Aufruf — daraus berechnet sich der Verzug selbst. Das ist der Weg, der im Praxisalltag funktioniert.</p>
-        </div>
-
-        <div class="card">
-          <p class="card__title">An die Patienten weitergegeben</p>
-          <p class="card__sub">Nie der volle Verzug. Sicherheitspuffer bleibt in der Praxis.</p>
-          <div class="outcome">
-            <p class="outcome__k">Patienten kommen</p>
-            <p class="outcome__v" id="outVal">wie geplant</p>
-            <p class="outcome__why" id="outWhy"></p>
-          </div>
-          <button class="btn" id="btnSenden" style="margin-top:14px">Aktualisierung senden</button>
+          <button class="btn" id="btnSenden" style="margin-top:12px">Aktualisierung senden</button>
           <p class="card__sub" style="margin:10px 0 0" id="lastUpdate">Noch nicht aktualisiert.</p>
         </div>
 
         <div class="card">
           <p class="card__title">Einstellungen der Praxis</p>
+          <p class="card__sub">Gelten für alle Strecken dieser Praxis.</p>
           <div class="setting">
             <label for="setPuffer">Sicherheitspuffer
               <small>Minuten, die vom Verzug abgezogen werden, bevor er rausgeht.</small>
@@ -403,20 +350,12 @@
             </label>
             <input type="number" id="setSchwelle" min="0" max="60" step="5">
           </div>
-        </div>
-      </div>
-
-      <div>
-        <div class="card">
-          <p class="card__title">Sprechstunde heute</p>
-          <p class="card__sub">Verschobene Zeiten in Orange. „Notfall“ markierte Termine werden nie auf morgen verlegt.</p>
-          <ul class="counts">
-            <li><div><strong id="cntGesamt">0</strong><span>Termine heute</span></div></li>
-            <li><div><strong id="cntOffen">0</strong><span>noch offen</span></div></li>
-            <li><div><strong id="cntEnde">–:–</strong><span>letzter Termin endet</span></div></li>
-          </ul>
-          <p class="notice notice--warn" id="ueberzug" hidden></p>
-          <ul class="plan" id="plan"></ul>
+          <div class="setting">
+            <label for="setSchliesst">Praxis schließt um
+              <small>Ab hier schlägt WaitAway die Verlegung auf morgen vor.</small>
+            </label>
+            <input type="number" id="setSchliesst" min="12" max="22" step="1">
+          </div>
         </div>
       </div>
 
@@ -430,93 +369,154 @@
   "use strict";
 
   /* ============================================================
-     1. DATEN  — in einem echten Produkt käme das von einem Server
+     ABSCHNITT 1 — DATEN
+     Hier neue Praxen, Städte, Fachrichtungen oder Strecken eintragen.
+     "strecken" sind die Namen, "verzuege" die Startwerte in Minuten
+     (gleiche Reihenfolge, gleiche Anzahl).
      ============================================================ */
+
+  var PRODUKT = "WaitAway";
 
   var STAEDTE = ["Köln","Düsseldorf","Essen","Münster","Bonn"];
   var FACHRICHTUNGEN = ["Hausarzt","Zahnarzt","Orthopäde","Hautarzt"];
 
   var PRAXEN = [
-    {id:1,  name:"Praxis Dr. Behrens",            fach:"Hausarzt",  stadt:"Köln",       viertel:"Ehrenfeld",   adresse:"Venloer Str. 142, 50823 Köln",      tel:"0221 55 44 21", verzug:35},
-    {id:2,  name:"Hausarztzentrum Severinsviertel", fach:"Hausarzt",  stadt:"Köln",       viertel:"Altstadt-Süd", adresse:"Severinstr. 88, 50678 Köln",       tel:"0221 31 90 07", verzug:0},
-    {id:3,  name:"Zahnärzte am Rudolfplatz",      fach:"Zahnarzt",  stadt:"Köln",       viertel:"Neustadt-Süd", adresse:"Habsburgerring 2, 50674 Köln",     tel:"0221 24 11 55", verzug:15},
-    {id:4,  name:"Dr. Okonkwo — Dermatologie",    fach:"Hautarzt",  stadt:"Köln",       viertel:"Sülz",         adresse:"Zülpicher Str. 301, 50937 Köln",   tel:"0221 94 02 18", verzug:50},
-    {id:5,  name:"Orthopädie Rheinpark",          fach:"Orthopäde", stadt:"Köln",       viertel:"Deutz",        adresse:"Siegburger Str. 15, 50679 Köln",   tel:"0221 88 07 30", verzug:10},
-    {id:6,  name:"Praxis Dr. Vogt & Kollegen",    fach:"Hausarzt",  stadt:"Düsseldorf", viertel:"Bilk",         adresse:"Friedrichstr. 60, 40217 Düsseldorf", tel:"0211 33 48 90", verzug:20},
-    {id:7,  name:"Zahnklinik Königsallee",        fach:"Zahnarzt",  stadt:"Düsseldorf", viertel:"Stadtmitte",   adresse:"Königsallee 44, 40212 Düsseldorf", tel:"0211 86 22 14", verzug:0},
-    {id:8,  name:"Hautarztpraxis Oberkassel",     fach:"Hautarzt",  stadt:"Düsseldorf", viertel:"Oberkassel",   adresse:"Luegallee 71, 40545 Düsseldorf",   tel:"0211 55 71 06", verzug:40},
-    {id:9,  name:"Gemeinschaftspraxis Rüttenscheid", fach:"Hausarzt", stadt:"Essen",     viertel:"Rüttenscheid", adresse:"Rüttenscheider Str. 180, 45131 Essen", tel:"0201 77 31 25", verzug:25},
-    {id:10, name:"Orthopädie am Baldeneysee",     fach:"Orthopäde", stadt:"Essen",      viertel:"Werden",       adresse:"Heckstr. 9, 45239 Essen",          tel:"0201 49 08 62", verzug:5},
-    {id:11, name:"Zahnarztpraxis Dr. Albers",     fach:"Zahnarzt",  stadt:"Münster",    viertel:"Kreuzviertel", adresse:"Kanalstr. 23, 48147 Münster",      tel:"0251 62 14 77", verzug:0},
-    {id:12, name:"Praxis am Aasee",               fach:"Hausarzt",  stadt:"Münster",    viertel:"Aaseestadt",   adresse:"Weseler Str. 210, 48151 Münster",  tel:"0251 87 40 19", verzug:30},
-    {id:13, name:"Dermatologie Bonn-Süd",         fach:"Hautarzt",  stadt:"Bonn",       viertel:"Südstadt",     adresse:"Reuterstr. 51, 53113 Bonn",        tel:"0228 21 55 40", verzug:45},
-    {id:14, name:"Orthopädische Praxis Beuel",    fach:"Orthopäde", stadt:"Bonn",       viertel:"Beuel",        adresse:"Friedrich-Breuer-Str. 70, 53225 Bonn", tel:"0228 46 70 12", verzug:0}
-  ];
+    {id:1, name:"Praxis Dr. Behrens", fach:"Hausarzt", stadt:"Köln", viertel:"Ehrenfeld",
+     adresse:"Venloer Str. 142, 50823 Köln", tel:"0221 55 44 21",
+     strecken:["Dr. Behrens","Dr. Lindqvist","Dr. Ameri"], verzuege:[35,0,15]},
 
-  // Jede Praxis bekommt Standard-Einstellungen und einen Terminplan
-  PRAXEN.forEach(function(p){
-    p.puffer = 20;         // Minuten, die nie weitergegeben werden
-    p.schwelle = 15;       // unter diesem Wert erfährt der Patient nichts
-    p.aktualisiert = null; // Zeitpunkt der letzten gesendeten Aktualisierung
-    p.schliesst = 18;      // Uhr
-    p.termine = null;      // wird beim ersten Öffnen erzeugt
-  });
+    {id:2, name:"Hausarztzentrum Severinsviertel", fach:"Hausarzt", stadt:"Köln", viertel:"Altstadt-Süd",
+     adresse:"Severinstr. 88, 50678 Köln", tel:"0221 31 90 07",
+     strecken:["Dr. Weerasinghe"], verzuege:[0]},
+
+    {id:3, name:"Zahnärzte am Rudolfplatz", fach:"Zahnarzt", stadt:"Köln", viertel:"Neustadt-Süd",
+     adresse:"Habsburgerring 2, 50674 Köln", tel:"0221 24 11 55",
+     strecken:["Stuhl 1 — Dr. Mertens","Stuhl 2 — Dr. Yildiz","Prophylaxe"], verzuege:[15,40,5]},
+
+    {id:4, name:"Dr. Okonkwo — Dermatologie", fach:"Hautarzt", stadt:"Köln", viertel:"Sülz",
+     adresse:"Zülpicher Str. 301, 50937 Köln", tel:"0221 94 02 18",
+     strecken:["Dr. Okonkwo","Privatambulanz"], verzuege:[50,10]},
+
+    {id:5, name:"Orthopädie Rheinpark", fach:"Orthopäde", stadt:"Köln", viertel:"Deutz",
+     adresse:"Siegburger Str. 15, 50679 Köln", tel:"0221 88 07 30",
+     strecken:["Dr. Fischer","Dr. Bartoszek","Physiotherapie"], verzuege:[10,0,0]},
+
+    {id:6, name:"Praxis Dr. Vogt & Kollegen", fach:"Hausarzt", stadt:"Düsseldorf", viertel:"Bilk",
+     adresse:"Friedrichstr. 60, 40217 Düsseldorf", tel:"0211 33 48 90",
+     strecken:["Dr. Vogt","Dr. Castellanos"], verzuege:[20,45]},
+
+    {id:7, name:"Zahnklinik Königsallee", fach:"Zahnarzt", stadt:"Düsseldorf", viertel:"Stadtmitte",
+     adresse:"Königsallee 44, 40212 Düsseldorf", tel:"0211 86 22 14",
+     strecken:["Stuhl 1","Stuhl 2","Stuhl 3","Prophylaxe"], verzuege:[0,25,10,0]},
+
+    {id:8, name:"Hautarztpraxis Oberkassel", fach:"Hautarzt", stadt:"Düsseldorf", viertel:"Oberkassel",
+     adresse:"Luegallee 71, 40545 Düsseldorf", tel:"0211 55 71 06",
+     strecken:["Dr. Hallstein"], verzuege:[40]},
+
+    {id:9, name:"Gemeinschaftspraxis Rüttenscheid", fach:"Hausarzt", stadt:"Essen", viertel:"Rüttenscheid",
+     adresse:"Rüttenscheider Str. 180, 45131 Essen", tel:"0201 77 31 25",
+     strecken:["Dr. Nowak","Dr. Abedi","Dr. Thiele"], verzuege:[25,5,30]},
+
+    {id:10, name:"Orthopädie am Baldeneysee", fach:"Orthopäde", stadt:"Essen", viertel:"Werden",
+     adresse:"Heckstr. 9, 45239 Essen", tel:"0201 49 08 62",
+     strecken:["Dr. Grabowski"], verzuege:[5]},
+
+    {id:11, name:"Zahnarztpraxis Dr. Albers", fach:"Zahnarzt", stadt:"Münster", viertel:"Kreuzviertel",
+     adresse:"Kanalstr. 23, 48147 Münster", tel:"0251 62 14 77",
+     strecken:["Stuhl 1 — Dr. Albers","Prophylaxe"], verzuege:[0,0]},
+
+    {id:12, name:"Praxis am Aasee", fach:"Hausarzt", stadt:"Münster", viertel:"Aaseestadt",
+     adresse:"Weseler Str. 210, 48151 Münster", tel:"0251 87 40 19",
+     strecken:["Dr. Brinkmann","Dr. Oyelaran"], verzuege:[30,0]},
+
+    {id:13, name:"Dermatologie Bonn-Süd", fach:"Hautarzt", stadt:"Bonn", viertel:"Südstadt",
+     adresse:"Reuterstr. 51, 53113 Bonn", tel:"0228 21 55 40",
+     strecken:["Dr. Seidel","Dr. Marchetti"], verzuege:[45,20]},
+
+    {id:14, name:"Orthopädische Praxis Beuel", fach:"Orthopäde", stadt:"Bonn", viertel:"Beuel",
+     adresse:"Friedrich-Breuer-Str. 70, 53225 Bonn", tel:"0228 46 70 12",
+     strecken:["Dr. Hoffmann","Stoßwellentherapie"], verzuege:[0,0]}
+  ];
 
   var TERMINARTEN = [
-    {art:"Kontrolle",    dauer:10},
-    {art:"Beratung",     dauer:15},
-    {art:"Blutabnahme",  dauer:10},
+    {art:"Kontrolle", dauer:10},
+    {art:"Beratung", dauer:15},
+    {art:"Blutabnahme", dauer:10},
     {art:"Erstgespräch", dauer:30},
-    {art:"Impfung",      dauer:10},
-    {art:"Nachsorge",    dauer:20}
+    {art:"Impfung", dauer:10},
+    {art:"Nachsorge", dauer:20}
   ];
 
+  // Aus der kompakten Tabelle oben echte Strecken-Objekte bauen.
+  PRAXEN.forEach(function(p){
+    p.puffer = 20;
+    p.schwelle = 15;
+    p.schliesst = 18;
+    p.strecken = p.strecken.map(function(label, i){
+      return {
+        id: p.id + "-" + i,
+        label: label,
+        verzug: p.verzuege[i] || 0,
+        aktualisiert: null,
+        termine: null,
+        praxis: p
+      };
+    });
+    delete p.verzuege;
+  });
+
   /* ============================================================
-     2. HILFSFUNKTIONEN
+     ABSCHNITT 2 — HILFSFUNKTIONEN
+     Kleine Werkzeuge für Uhrzeiten.
      ============================================================ */
 
   function hhmm(d){
     return String(d.getHours()).padStart(2,"0") + ":" + String(d.getMinutes()).padStart(2,"0");
   }
-  function plusMin(d, m){ return new Date(d.getTime() + m*60000); }
-  function minDiff(a, b){ return Math.round((a - b)/60000); }
+  function plusMin(d,m){ return new Date(d.getTime() + m*60000); }
+  function minDiff(a,b){ return Math.round((a-b)/60000); }
   function abRunden5(m){ return Math.floor(m/5)*5; }
 
-  // Terminplan rund um die aktuelle Uhrzeit erzeugen, damit die Demo
+  // Zeitraster rund um die aktuelle Uhrzeit, damit die Demo
   // zu jeder Tageszeit plausibel aussieht.
-  function terminplan(praxis){
-    if(praxis.termine) return praxis.termine;
+  function raster(strecke){
+    if(strecke.termine) return strecke.termine;
     var jetzt = new Date();
-    var raster = new Date(jetzt);
-    raster.setSeconds(0,0);
-    raster.setMinutes(Math.floor(raster.getMinutes()/15)*15);
-    var start = plusMin(raster, -8*15);
+    var grid = new Date(jetzt);
+    grid.setSeconds(0,0);
+    grid.setMinutes(Math.floor(grid.getMinutes()/15)*15);
+    var start = plusMin(grid, -6*15);
 
     var liste = [];
     for(var i=0;i<18;i++){
       var plan = plusMin(start, i*15);
-      var typ = TERMINARTEN[(praxis.id + i) % TERMINARTEN.length];
+      var typ = TERMINARTEN[(i + strecke.label.length) % TERMINARTEN.length];
       liste.push({
-        id: i,
+        nr: i,
         plan: plan,
         art: typ.art,
         dauer: typ.dauer,
-        erledigt: minDiff(jetzt, plan) > 45,
-        notfall: (praxis.id + i) % 7 === 3,
-        verlegt: false
+        status: minDiff(jetzt, plan) > 60 ? "erledigt" : "offen",
+        notfall: (i + strecke.label.length) % 7 === 3
       });
     }
-    praxis.termine = liste;
+    strecke.termine = liste;
     return liste;
   }
 
-  /* --- Die zentrale Regel: was erfährt der Patient? --- */
-  function weitergabe(praxis){
-    var nachPuffer = praxis.verzug - praxis.puffer;
-    if(nachPuffer < praxis.schwelle) {
-      return {minuten:0, grund:"unter Schwelle", nachPuffer:nachPuffer};
+  /* ============================================================
+     ABSCHNITT 3 — DIE REGEL
+     Das Herz des Produkts: was erfährt der Patient?
+     Nur hier anpassen, wenn sich die Logik ändern soll.
+     ============================================================ */
+
+  function weitergabe(strecke){
+    var p = strecke.praxis;
+    var nachPuffer = strecke.verzug - p.puffer;
+    if(nachPuffer < p.schwelle){
+      return {minuten:0, nachPuffer:nachPuffer};
     }
-    return {minuten: abRunden5(nachPuffer), grund:"weitergegeben", nachPuffer:nachPuffer};
+    return {minuten: abRunden5(nachPuffer), nachPuffer:nachPuffer};
   }
 
   function stufe(min){
@@ -524,18 +524,34 @@
     if(min <= 30) return "mid";
     return "high";
   }
-  function statusText(min){
-    if(min <= 0) return "im Plan";
-    return "+" + min + " Min";
+  function statusText(min){ return min <= 0 ? "im Plan" : "+" + min + " Min"; }
+
+  // Für die Trefferliste: wie fasst man mehrere Strecken zusammen?
+  function praxisStatus(p){
+    var werte = p.strecken.map(function(s){ return weitergabe(s).minuten; });
+    var min = Math.min.apply(null, werte);
+    var max = Math.max.apply(null, werte);
+    if(p.strecken.length === 1) return {text: statusText(max), stufe: stufe(max)};
+    if(min === max) return {text: statusText(max), stufe: stufe(max)};
+    return {text: statusText(min) + " bis " + statusText(max), stufe: stufe(max)};
   }
 
   function praxisById(id){
     for(var i=0;i<PRAXEN.length;i++){ if(PRAXEN[i].id === id) return PRAXEN[i]; }
     return null;
   }
+  function streckeById(sid){
+    for(var i=0;i<PRAXEN.length;i++){
+      for(var j=0;j<PRAXEN[i].strecken.length;j++){
+        if(PRAXEN[i].strecken[j].id === sid) return PRAXEN[i].strecken[j];
+      }
+    }
+    return null;
+  }
 
   /* ============================================================
-     3. ZUSTAND
+     ABSCHNITT 4 — ZUSTAND
+     Was die App sich gerade merkt.
      ============================================================ */
 
   var standardTermin = (function(){
@@ -545,21 +561,15 @@
   })();
 
   var patient = {
-    screen: "suche",
-    stadt: "Köln",
-    fach: null,
-    query: "",
-    praxisId: null,
-    termin: standardTermin,
-    fern: false,
-    trotzdem: false,
-    erweitert: false
+    screen:"suche", stadt:"Köln", fach:null, query:"",
+    praxisId:null, streckeId:null,
+    termin:standardTermin, fern:false, trotzdem:false, erweitert:false
   };
 
-  var dash = { praxisId: 1 };
+  var dash = { praxisId:1, streckeId:"1-0" };
 
   /* ============================================================
-     4. PATIENTENANSICHT
+     ABSCHNITT 5 — PATIENTENANSICHT
      ============================================================ */
 
   var app = document.getElementById("app");
@@ -573,31 +583,26 @@
   }
 
   function renderPatient(){
-    if(patient.screen === "suche") return renderSuche();
-    if(patient.screen === "liste") return renderListe();
+    if(patient.screen === "suche")   return renderSuche();
+    if(patient.screen === "liste")   return renderListe();
+    if(patient.screen === "strecke") return renderStreckenwahl();
     return renderDetail();
   }
 
   function renderSuche(){
     app.innerHTML =
-      '<p class="app__kicker">Praxispuls</p>' +
+      '<p class="app__kicker">' + PRODUKT + '</p>' +
       '<h1 class="app__title">Wie lange wartet<br>Ihre Praxis gerade?</h1>' +
-      '<div class="field">' +
-        '<label for="pStadt">Ort</label>' +
-        '<select id="pStadt">' + STAEDTE.map(function(s){
-          return '<option' + (s===patient.stadt?' selected':'') + '>' + s + '</option>';
-        }).join("") + '</select>' +
-      '</div>' +
-      '<div class="field">' +
-        '<label>Fachrichtung</label>' +
-        '<div class="chips" id="pFach">' + FACHRICHTUNGEN.map(function(f){
+      '<div class="field"><label for="pStadt">Ort</label><select id="pStadt">' +
+        STAEDTE.map(function(s){ return '<option' + (s===patient.stadt?' selected':'') + '>' + s + '</option>'; }).join("") +
+      '</select></div>' +
+      '<div class="field"><label>Fachrichtung</label><div class="chips" id="pFach">' +
+        FACHRICHTUNGEN.map(function(f){
           return '<button class="chip" aria-pressed="' + (patient.fach===f) + '" data-fach="' + f + '">' + f + '</button>';
-        }).join("") + '</div>' +
-      '</div>' +
-      '<div class="field">' +
-        '<label for="pQuery">Oder Praxis direkt suchen</label>' +
-        '<input type="search" id="pQuery" placeholder="z. B. Behrens" value="' + patient.query + '">' +
-      '</div>' +
+        }).join("") +
+      '</div></div>' +
+      '<div class="field"><label for="pQuery">Oder Praxis direkt suchen</label>' +
+        '<input type="search" id="pQuery" placeholder="z. B. Behrens" value="' + patient.query + '"></div>' +
       '<div class="actions"><button class="btn" id="pGo">Praxen anzeigen</button></div>';
 
     document.getElementById("pStadt").onchange = function(e){ patient.stadt = e.target.value; };
@@ -608,10 +613,7 @@
       patient.fach = (patient.fach === b.dataset.fach) ? null : b.dataset.fach;
       renderSuche();
     };
-    document.getElementById("pGo").onclick = function(){
-      patient.screen = "liste";
-      renderPatient();
-    };
+    document.getElementById("pGo").onclick = function(){ patient.screen = "liste"; renderPatient(); };
   }
 
   function treffer(){
@@ -626,9 +628,8 @@
 
   function renderListe(){
     var liste = treffer();
-    var kopf = patient.query.trim()
-      ? 'Suche „' + patient.query.trim() + '“'
-      : patient.stadt + (patient.fach ? " · " + patient.fach : "");
+    var kopf = patient.query.trim() ? 'Suche „' + patient.query.trim() + '“'
+                                    : patient.stadt + (patient.fach ? " · " + patient.fach : "");
 
     app.innerHTML =
       '<button class="backlink" id="pBack">Zurück zur Suche</button>' +
@@ -636,47 +637,81 @@
       '<p class="app__kicker" style="margin:-14px 0 10px">' + kopf + '</p>' +
       (liste.length
         ? '<ul class="results">' + liste.map(function(p){
-            var w = weitergabe(p);
-            var s = stufe(w.minuten);
+            var st = praxisStatus(p);
+            var anzahl = p.strecken.length;
             return '<li><button class="result" data-id="' + p.id + '">' +
               '<span class="result__body">' +
                 '<span class="result__name">' + p.name + '</span>' +
-                '<span class="result__meta">' + p.fach + ' · ' + p.viertel + '</span>' +
+                '<span class="result__meta">' + p.fach + ' · ' + p.viertel +
+                  (anzahl > 1 ? ' · ' + anzahl + ' Strecken' : '') + '</span>' +
               '</span>' +
-              '<span class="pill pill--' + s + '">' + statusText(w.minuten) + '</span>' +
+              '<span class="pill pill--' + st.stufe + '">' + st.text + '</span>' +
             '</button></li>';
           }).join("") + '</ul>'
-        : '<p class="empty">Keine Praxis gefunden. Praxispuls zeigt nur Praxen, die mitmachen — das ist der Vertriebsjob.</p>');
+        : '<p class="empty">Keine Praxis gefunden. ' + PRODUKT + ' zeigt nur Praxen, die mitmachen — das ist der Vertriebsjob.</p>');
 
     document.getElementById("pBack").onclick = function(){ patient.screen = "suche"; renderPatient(); };
     var ul = app.querySelector(".results");
     if(ul) ul.onclick = function(e){
       var b = e.target.closest("[data-id]");
       if(!b) return;
-      patient.praxisId = Number(b.dataset.id);
-      patient.screen = "detail";
+      var p = praxisById(Number(b.dataset.id));
+      patient.praxisId = p.id;
       patient.trotzdem = false;
       patient.erweitert = false;
+      if(p.strecken.length === 1){
+        patient.streckeId = p.strecken[0].id;
+        patient.screen = "detail";
+      } else {
+        patient.screen = "strecke";
+      }
+      renderPatient();
+    };
+  }
+
+  // Neuer Zwischenschritt: bei wem genau ist der Termin?
+  function renderStreckenwahl(){
+    var p = praxisById(patient.praxisId);
+    app.innerHTML =
+      '<button class="backlink" id="sBack">Zurück zur Liste</button>' +
+      '<div class="praxishead"><h2>' + p.name + '</h2><p>' + p.adresse + '</p></div>' +
+      '<h1 class="app__title" style="font-size:1.125rem;margin-bottom:6px">Bei wem haben Sie Ihren Termin?</h1>' +
+      '<p class="app__kicker" style="margin-bottom:6px">Steht auf Ihrem Terminzettel.</p>' +
+      '<ul class="results">' + p.strecken.map(function(s){
+        var w = weitergabe(s);
+        return '<li><button class="result" data-sid="' + s.id + '">' +
+          '<span class="result__body"><span class="result__name">' + s.label + '</span></span>' +
+          '<span class="pill pill--' + stufe(w.minuten) + '">' + statusText(w.minuten) + '</span>' +
+        '</button></li>';
+      }).join("") + '</ul>' +
+      '<p class="notice">Im Produkt entfällt dieser Schritt: jede Strecke hat ihren eigenen QR-Code auf dem Terminzettel. Ein Scan, und das Handy weiß Praxis und Strecke.</p>';
+
+    document.getElementById("sBack").onclick = function(){ patient.screen = "liste"; renderPatient(); };
+    app.querySelector(".results").onclick = function(e){
+      var b = e.target.closest("[data-sid]");
+      if(!b) return;
+      patient.streckeId = b.dataset.sid;
+      patient.screen = "detail";
       renderPatient();
     };
   }
 
   function renderDetail(){
-    var p = praxisById(patient.praxisId);
-    var w = weitergabe(p);
+    var s = streckeById(patient.streckeId);
+    var p = s.praxis;
+    var w = weitergabe(s);
     var termin = terminJetzt();
     var jetzt = new Date();
     var stundenHin = (termin - jetzt)/3600000;
     var zuFrueh = stundenHin > 2 && !patient.trotzdem;
-
     var kommen = plusMin(termin, w.minuten);
+    var mehrere = p.strecken.length > 1;
 
     var html =
-      '<button class="backlink" id="dBack">Zurück zur Liste</button>' +
-      '<div class="praxishead">' +
-        '<h2>' + p.name + '</h2>' +
-        '<p>' + p.adresse + '</p>' +
-      '</div>';
+      '<button class="backlink" id="dBack">' + (mehrere ? "Andere Strecke wählen" : "Zurück zur Liste") + '</button>' +
+      '<div class="praxishead"><h2>' + p.name + '</h2><p>' +
+        (mehrere ? "Termin bei " + s.label + " · " : "") + p.adresse +
+      '</p></div>';
 
     if(zuFrueh){
       html +=
@@ -685,7 +720,7 @@
           '<p class="hero__time">' + hhmm(termin) + '</p>' +
           '<p class="hero__delta hero__delta--ok">Noch ' + Math.round(stundenHin) + ' Stunden hin</p>' +
         '</div>' +
-        '<p class="notice">Die Verzögerung wird <strong>2 Stunden vor Ihrem Termin</strong> freigegeben. So früh am Tag sagt sie noch nichts aus — bis dahin ändert sich fast immer noch etwas.</p>' +
+        '<p class="notice">Die Verzögerung wird <strong>2 Stunden vor Ihrem Termin</strong> freigegeben. So früh sagt sie noch nichts aus — bis dahin ändert sich fast immer etwas.</p>' +
         '<button class="linkish" id="dTrotzdem">Aktuellen Stand trotzdem ansehen</button>';
     } else {
       html +=
@@ -694,24 +729,25 @@
           '<p class="hero__time">' + hhmm(kommen) + '</p>' +
           (w.minuten > 0
             ? '<p class="hero__delta hero__delta--up">' + w.minuten + ' Minuten später als Ihr Termin um ' + hhmm(termin) + '</p>'
-            : '<p class="hero__delta hero__delta--ok">Die Praxis liegt im Plan</p>') +
+            : '<p class="hero__delta hero__delta--ok">' + (mehrere ? s.label + " liegt im Plan" : "Die Praxis liegt im Plan") + '</p>') +
         '</div>' +
         '<dl>' +
           '<div class="factrow"><dt>Ihr Termin</dt><dd>' + hhmm(termin) + '</dd></div>' +
-          '<div class="factrow"><dt>Zuletzt aktualisiert</dt><dd>' + (p.aktualisiert ? hhmm(p.aktualisiert) + " Uhr" : "noch nicht heute") + '</dd></div>' +
+          (mehrere ? '<div class="factrow"><dt>Behandlung bei</dt><dd>' + s.label + '</dd></div>' : '') +
+          '<div class="factrow"><dt>Zuletzt aktualisiert</dt><dd>' +
+            (s.aktualisiert ? hhmm(s.aktualisiert) + " Uhr" : "noch nicht heute") + '</dd></div>' +
         '</dl>';
 
       if(patient.trotzdem && stundenHin > 2){
         html += '<p class="notice notice--warn"><strong>Unzuverlässig.</strong> Bis zu Ihrem Termin sind noch Stunden — dieser Wert ändert sich mit hoher Wahrscheinlichkeit.</p>';
       }
-
-      if(w.minuten === 0 && p.verzug > 0){
-        html += '<p class="notice">Die Praxis liegt aktuell etwas hinter dem Plan, aber zu wenig, um Ihren Termin zu verschieben. Kommen Sie wie vereinbart.</p>';
+      if(w.minuten === 0 && s.verzug > 0){
+        html += '<p class="notice">' + (mehrere ? s.label : "Die Praxis") + ' liegt etwas hinter dem Plan, aber zu wenig, um Ihren Termin zu verschieben. Kommen Sie wie vereinbart.</p>';
       }
-
       if(patient.erweitert){
-        html += '<p class="notice">Roher Verzug der Praxis: <strong>' + p.verzug + ' Minuten</strong>. Praxispuls gibt davon ' + w.minuten +
-                ' Minuten weiter und behält ' + p.puffer + ' Minuten Puffer — damit Sie nicht zu spät kommen, wenn ein Patient vor Ihnen ausfällt.</p>';
+        html += '<p class="notice">Roher Verzug: <strong>' + s.verzug + ' Minuten</strong>. ' + PRODUKT + ' gibt ' +
+                w.minuten + ' Minuten weiter und behält ' + p.puffer +
+                ' Minuten Puffer — damit Sie nicht zu spät kommen, wenn ein Patient vor Ihnen ausfällt.</p>';
       }
       html += '<button class="linkish" id="dErw">' + (patient.erweitert ? "Details ausblenden" : "Wie wird das berechnet?") + '</button>';
     }
@@ -724,81 +760,106 @@
 
     app.innerHTML = html;
 
-    document.getElementById("dBack").onclick = function(){ patient.screen = "liste"; renderPatient(); };
+    document.getElementById("dBack").onclick = function(){
+      patient.screen = mehrere ? "strecke" : "liste";
+      renderPatient();
+    };
     var t = document.getElementById("dTrotzdem");
     if(t) t.onclick = function(){ patient.trotzdem = true; renderPatient(); };
     var e2 = document.getElementById("dErw");
     if(e2) e2.onclick = function(){ patient.erweitert = !patient.erweitert; renderPatient(); };
     document.getElementById("dCall").onclick = function(){
-      alert("Im Prototyp nur angedeutet.\n\nAuf dem Handy würde hier der Telefonanruf an " + p.tel + " starten.");
+      alert("Im Prototyp nur angedeutet.\n\nAuf dem Handy würde hier der Anruf an " + p.tel + " starten.");
     };
     document.getElementById("dCancel").onclick = function(){
       alert("Im Prototyp nur angedeutet.\n\nHier entsteht der direkte Weg zur Absage, wenn die Verzögerung nicht in den Tag des Patienten passt.");
     };
 
-    renderMath(p, w);
+    renderMath(s, w);
   }
 
-  function renderMath(p, w){
+  function renderMath(s, w){
     var box = document.getElementById("mathBox");
     if(!box) return;
-    if(!p){ box.textContent = "Wählen Sie eine Praxis, um die Rechnung zu sehen."; return; }
+    if(!s){ box.textContent = "Wählen Sie eine Praxis und eine Strecke, um die Rechnung zu sehen."; return; }
+    var p = s.praxis;
     box.innerHTML =
-      "Verzug der Praxis <b>" + p.verzug + " Min</b><br>" +
+      "Verzug von " + s.label + ": <b>" + s.verzug + " Min</b><br>" +
       "− Sicherheitspuffer <b>" + p.puffer + " Min</b><br>" +
       "= <b>" + w.nachPuffer + " Min</b>" +
       (w.minuten === 0
-        ? " — liegt unter der Mindestanzeige von " + p.schwelle + " Min, also <b>keine Anzeige</b>."
-        : ", abgerundet auf 5 Minuten: <b>" + w.minuten + " Min</b> gehen an den Patienten.");
+        ? " — unter der Mindestanzeige von " + p.schwelle + " Min, also <b>keine Anzeige</b>."
+        : ", abgerundet auf 5: <b>" + w.minuten + " Min</b> gehen an den Patienten.");
   }
 
   /* ============================================================
-     5. PRAXIS-DASHBOARD
+     ABSCHNITT 6 — PRAXIS-DASHBOARD
      ============================================================ */
 
   function renderDash(){
     var p = praxisById(dash.praxisId);
-    var liste = terminplan(p);
-    var w = weitergabe(p);
+    var sel = streckeById(dash.streckeId) || p.strecken[0];
+    dash.streckeId = sel.id;
+    var liste = raster(sel);
+    var w = weitergabe(sel);
     var jetzt = new Date();
 
     document.getElementById("dashName").textContent = p.name;
     document.getElementById("dashAddr").textContent = p.adresse + " · " + p.fach;
-    document.getElementById("verzugVal").textContent = p.verzug;
     document.getElementById("setPuffer").value = p.puffer;
     document.getElementById("setSchwelle").value = p.schwelle;
+    document.getElementById("setSchliesst").value = p.schliesst;
 
-    document.getElementById("outVal").textContent =
-      w.minuten > 0 ? "+" + w.minuten + " Minuten später" : "wie geplant";
-    document.getElementById("outWhy").textContent =
-      w.minuten > 0
-        ? p.verzug + " Min Verzug − " + p.puffer + " Min Puffer, abgerundet auf 5."
-        : "Verzug minus Puffer liegt unter der Mindestanzeige von " + p.schwelle + " Min. Die Patienten werden nicht beunruhigt.";
+    // Linke Spalte: alle Strecken
+    document.getElementById("streckenListe").innerHTML = p.strecken.map(function(s){
+      var ws = weitergabe(s);
+      return '<li><button class="strecke" data-sid="' + s.id + '" aria-current="' + (s.id === sel.id) + '">' +
+        '<span class="strecke__name">' + s.label +
+          '<span class="strecke__sub">' + (s.aktualisiert ? "gesendet " + hhmm(s.aktualisiert) : "nicht gesendet") + '</span>' +
+        '</span>' +
+        '<span class="strecke__verzug">' + s.verzug + '<small>Verzug</small></span>' +
+        '<span class="pill pill--' + (ws.minuten ? stufe(ws.minuten) : "neutral") + '">' +
+          (ws.minuten ? "+" + ws.minuten + " Min" : "nichts") +
+        '</span>' +
+      '</button></li>';
+    }).join("");
 
-    document.getElementById("lastUpdate").textContent =
-      p.aktualisiert ? "Zuletzt gesendet: " + hhmm(p.aktualisiert) + " Uhr." : "Noch nicht aktualisiert.";
+    document.getElementById("streckenListe").onclick = function(e){
+      var b = e.target.closest("[data-sid]");
+      if(!b) return;
+      dash.streckeId = b.dataset.sid;
+      renderDash();
+    };
 
-    var offen = liste.filter(function(t){ return !t.erledigt && !t.verlegt; });
-    document.getElementById("cntGesamt").textContent = liste.filter(function(t){ return !t.verlegt; }).length;
-    document.getElementById("cntOffen").textContent = offen.length;
+    // Rechte Spalte: gewählte Strecke
+    document.getElementById("selName").textContent = sel.label;
+    document.getElementById("outVal").textContent = w.minuten > 0 ? "+" + w.minuten + " Minuten später" : "wie geplant";
+    document.getElementById("outWhy").textContent = w.minuten > 0
+      ? sel.verzug + " Min Verzug − " + p.puffer + " Min Puffer, abgerundet auf 5."
+      : "Verzug minus Puffer liegt unter der Mindestanzeige von " + p.schwelle + " Min.";
+    document.getElementById("lastUpdate").textContent = sel.aktualisiert
+      ? "Zuletzt gesendet: " + hhmm(sel.aktualisiert) + " Uhr."
+      : "Noch nicht aktualisiert.";
 
+    // Zeitraster
+    document.getElementById("rasterName").textContent = "· " + sel.label;
+
+    var offen = liste.filter(function(t){ return t.status === "offen" || t.status === "laeuft"; });
     var letzter = offen.length ? offen[offen.length-1] : null;
-    var endeZeit = letzter ? plusMin(plusMin(letzter.plan, p.verzug), letzter.dauer) : null;
-    document.getElementById("cntEnde").textContent = endeZeit ? hhmm(endeZeit) : "–:–";
+    var endeZeit = letzter ? plusMin(plusMin(letzter.plan, sel.verzug), letzter.dauer) : null;
 
     var ueber = document.getElementById("ueberzug");
     if(endeZeit && endeZeit.getHours() >= p.schliesst){
       ueber.hidden = false;
-      ueber.innerHTML = '<strong>Sprechstunde läuft über.</strong> Mit dem aktuellen Verzug endet der letzte Termin um ' +
+      ueber.innerHTML = '<strong>Strecke läuft über.</strong> Mit ' + sel.verzug + ' Min Verzug endet der letzte Termin um ' +
         hhmm(endeZeit) + ' Uhr, geschlossen wird ' + p.schliesst + ':00. ' +
         '<button class="linkish" id="btnVerlegen" style="margin-top:8px">Termine ohne Notfallstatus auf morgen verlegen</button>';
       var bv = document.getElementById("btnVerlegen");
       if(bv) bv.onclick = function(){
         var n = 0;
         liste.forEach(function(t){
-          if(t.erledigt || t.verlegt || t.notfall) return;
-          var neu = plusMin(t.plan, p.verzug);
-          if(neu.getHours() >= p.schliesst){ t.verlegt = true; n++; }
+          if(t.status !== "offen" || t.notfall) return;
+          if(plusMin(t.plan, sel.verzug).getHours() >= p.schliesst){ t.status = "morgen"; n++; }
         });
         zeigeFlash(n ? n + " Termine auf morgen verlegt. Notfälle sind geblieben." : "Keine verlegbaren Termine gefunden.");
         renderDash();
@@ -807,31 +868,63 @@
       ueber.hidden = true;
     }
 
-    document.getElementById("plan").innerHTML = liste.map(function(t){
-      var neu = plusMin(t.plan, p.verzug);
-      var cls = t.erledigt ? "is-done" : (t.verlegt ? "is-moved" : "");
-      var neuText = t.erledigt ? "erledigt" : (t.verlegt ? "morgen" : (p.verzug > 0 ? hhmm(neu) : ""));
-      return '<li class="' + cls + '">' +
-        '<span class="plan__time">' + hhmm(t.plan) + '</span>' +
-        '<span class="plan__new">' + neuText + '</span>' +
-        '<span class="plan__art">' + t.art + ' <small>· ' + t.dauer + ' Min</small></span>' +
-        '<button class="plan__flag" data-t="' + t.id + '" aria-pressed="' + t.notfall + '">Notfall</button>' +
+    var LABEL = {offen:"", laeuft:"läuft", erledigt:"erledigt", entfallen:"entfallen", morgen:"morgen"};
+    document.getElementById("raster").innerHTML = liste.map(function(t){
+      return '<li class="is-' + t.status + '">' +
+        '<button class="rtime" data-nr="' + t.nr + '">' +
+          '<span class="rtime__t">' + hhmm(t.plan) + '</span>' +
+          '<span class="rtime__art">' + t.art + ' <small>· ' + t.dauer + ' Min</small></span>' +
+          (LABEL[t.status] ? '<span class="rtime__st">' + LABEL[t.status] + '</span>' : '') +
+        '</button>' +
+        '<button class="rflag" data-flag="' + t.nr + '" aria-pressed="' + t.notfall + '">Notfall</button>' +
       '</li>';
     }).join("");
 
-    document.getElementById("plan").onclick = function(e){
-      var b = e.target.closest("[data-t]");
+    document.getElementById("raster").onclick = function(e){
+      var flag = e.target.closest("[data-flag]");
+      if(flag){
+        liste[Number(flag.dataset.flag)].notfall = !liste[Number(flag.dataset.flag)].notfall;
+        renderDash();
+        return;
+      }
+      var b = e.target.closest("[data-nr]");
       if(!b) return;
-      var t = liste[Number(b.dataset.t)];
-      t.notfall = !t.notfall;
-      renderDash();
+      aufrufen(sel, liste, Number(b.dataset.nr));
     };
 
     document.getElementById("dashClock").textContent = hhmm(jetzt);
-    document.getElementById("dashDate").textContent = jetzt.toLocaleDateString("de-DE",{weekday:"long",day:"numeric",month:"long"});
+    document.getElementById("dashDate").textContent =
+      jetzt.toLocaleDateString("de-DE",{weekday:"long",day:"numeric",month:"long"});
 
-    if(patient.praxisId === p.id && patient.screen === "detail") renderPatient();
-    renderMath(praxisById(patient.praxisId), weitergabe(praxisById(patient.praxisId) || p));
+    // Patientenansicht mitziehen, falls sie dieselbe Strecke zeigt
+    if(patient.streckeId === sel.id && patient.screen === "detail") renderPatient();
+    renderMath(streckeById(patient.streckeId), weitergabe(streckeById(patient.streckeId) || sel));
+  }
+
+  /* Der angetippte Termin ist der, der gerade hereingegangen ist.
+     Alles davor, das noch offen war, gilt als entfallen — damit
+     verfälscht eine Absage den Verzug nicht. */
+  function aufrufen(strecke, liste, nr){
+    var ziel = liste[nr];
+    if(ziel.status === "morgen") return;
+
+    var entfallen = 0;
+    liste.forEach(function(t){
+      if(t.nr < nr){
+        if(t.status === "offen"){ t.status = "entfallen"; entfallen++; }
+        if(t.status === "laeuft"){ t.status = "erledigt"; }
+      } else if(t.nr === nr){
+        t.status = "laeuft";
+      } else if(t.status === "laeuft" || t.status === "erledigt" || t.status === "entfallen"){
+        t.status = "offen";
+      }
+    });
+
+    strecke.verzug = Math.max(0, minDiff(new Date(), ziel.plan));
+    zeigeFlash("Planzeit " + hhmm(ziel.plan) + " aufgerufen um " + hhmm(new Date()) +
+      " — Verzug " + strecke.verzug + " Min" +
+      (entfallen ? ", " + entfallen + " übersprungene Zeit" + (entfallen>1?"en":"") + " als entfallen gebucht." : "."));
+    renderDash();
   }
 
   var flashTimer = null;
@@ -840,56 +933,42 @@
     f.textContent = text;
     f.hidden = false;
     clearTimeout(flashTimer);
-    flashTimer = setTimeout(function(){ f.hidden = true; }, 4000);
+    flashTimer = setTimeout(function(){ f.hidden = true; }, 5000);
   }
 
   document.querySelector(".steps").onclick = function(e){
     var b = e.target.closest("[data-delta]");
     if(!b) return;
-    var p = praxisById(dash.praxisId);
-    p.verzug = Math.max(0, Math.min(180, p.verzug + Number(b.dataset.delta)));
-    renderDash();
-  };
-
-  document.getElementById("btnAufgerufen").onclick = function(){
-    var p = praxisById(dash.praxisId);
-    var liste = terminplan(p);
-    var naechster = null;
-    for(var i=0;i<liste.length;i++){
-      if(!liste[i].erledigt && !liste[i].verlegt){ naechster = liste[i]; break; }
-    }
-    if(!naechster){ zeigeFlash("Alle Termine für heute sind durch."); return; }
-    naechster.erledigt = true;
-    var gemessen = minDiff(new Date(), naechster.plan);
-    p.verzug = Math.max(0, gemessen);
-    zeigeFlash("Termin " + hhmm(naechster.plan) + " aufgerufen um " + hhmm(new Date()) +
-               " — Verzug automatisch auf " + p.verzug + " Min gesetzt.");
+    var s = streckeById(dash.streckeId);
+    s.verzug = Math.max(0, Math.min(180, s.verzug + Number(b.dataset.delta)));
     renderDash();
   };
 
   document.getElementById("btnSenden").onclick = function(){
-    var p = praxisById(dash.praxisId);
-    p.aktualisiert = new Date();
-    var w = weitergabe(p);
+    var s = streckeById(dash.streckeId);
+    s.aktualisiert = new Date();
+    var w = weitergabe(s);
     zeigeFlash(w.minuten > 0
-      ? "Gesendet: Patienten sehen jetzt +" + w.minuten + " Minuten."
-      : "Gesendet: keine Verzögerung für die Patienten sichtbar.");
+      ? "Gesendet: Patienten von " + s.label + " sehen jetzt +" + w.minuten + " Minuten."
+      : "Gesendet: für " + s.label + " ist keine Verzögerung sichtbar.");
     renderDash();
   };
 
-  document.getElementById("setPuffer").oninput = function(e){
-    var p = praxisById(dash.praxisId);
-    p.puffer = Math.max(0, Number(e.target.value) || 0);
-    renderDash();
-  };
-  document.getElementById("setSchwelle").oninput = function(e){
-    var p = praxisById(dash.praxisId);
-    p.schwelle = Math.max(0, Number(e.target.value) || 0);
-    renderDash();
-  };
+  function einstellung(feldId, schluessel, min, max){
+    document.getElementById(feldId).oninput = function(e){
+      var p = praxisById(dash.praxisId);
+      var v = Number(e.target.value);
+      if(isNaN(v)) return;
+      p[schluessel] = Math.max(min, Math.min(max, v));
+      renderDash();
+    };
+  }
+  einstellung("setPuffer", "puffer", 0, 60);
+  einstellung("setSchwelle", "schwelle", 0, 60);
+  einstellung("setSchliesst", "schliesst", 12, 22);
 
   /* ============================================================
-     6. DEMO-STEUERUNG UND ANSICHTSWECHSEL
+     ABSCHNITT 7 — DEMO-STEUERUNG, ANSICHTSWECHSEL, START
      ============================================================ */
 
   var demoTermin = document.getElementById("demoTermin");
@@ -914,17 +993,22 @@
 
   var tabP = document.getElementById("tab-patient");
   var tabD = document.getElementById("tab-praxis");
+
   function wechsel(zuPatient){
     tabP.setAttribute("aria-selected", String(zuPatient));
     tabD.setAttribute("aria-selected", String(!zuPatient));
     document.getElementById("view-patient").hidden = !zuPatient;
     document.getElementById("view-praxis").hidden = zuPatient;
-    if(!zuPatient){
-      // Dashboard zeigt die Praxis, die der Patient gerade ansieht
-      if(patient.praxisId) dash.praxisId = patient.praxisId;
-      renderDash();
-    } else {
+    if(zuPatient){
       renderPatient();
+    } else {
+      if(patient.praxisId) dash.praxisId = patient.praxisId;
+      if(patient.streckeId && streckeById(patient.streckeId).praxis.id === dash.praxisId){
+        dash.streckeId = patient.streckeId;
+      } else {
+        dash.streckeId = praxisById(dash.praxisId).strecken[0].id;
+      }
+      renderDash();
     }
   }
   tabP.onclick = function(){ wechsel(true); };
@@ -935,10 +1019,6 @@
     document.getElementById("phoneClock").textContent = hhmm(jetzt);
     document.getElementById("dashClock").textContent = hhmm(jetzt);
   }
-
-  /* ============================================================
-     7. START
-     ============================================================ */
 
   renderPatient();
   renderDash();
