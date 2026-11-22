@@ -63,32 +63,35 @@
   @media (max-width:860px){.patient-layout{grid-template-columns:1fr;gap:30px}}
 
   .phone{background:var(--ink);border-radius:38px;padding:11px;box-shadow:0 22px 50px -24px rgba(21,33,31,.5);max-width:370px;width:100%}
-  .phone__screen{background:var(--surface);border-radius:28px;overflow:hidden;min-height:640px;display:flex;flex-direction:column}
-  .phone__status{display:flex;justify-content:space-between;align-items:center;padding:11px 20px 3px;font-size:.75rem;color:var(--muted);font-weight:500}
+  .phone__screen{background:var(--surface);border-radius:28px;overflow:hidden;height:680px;display:flex;flex-direction:column}
+  .phone__status{display:flex;justify-content:space-between;align-items:center;padding:11px 20px 3px;font-size:.75rem;color:var(--muted);font-weight:500;flex-shrink:0}
 
-  .app{padding:12px 20px 26px;flex:1;display:flex;flex-direction:column}
+  .app{padding:12px 20px 26px;flex:1;display:flex;flex-direction:column;min-height:0}
   .app__kicker{font-size:.8125rem;color:var(--muted);margin:0 0 3px}
   .app__title{font-size:1.5rem;font-weight:600;letter-spacing:-.022em;line-height:1.2;margin:0 0 20px}
+  .app__scroll{flex:1;overflow-y:auto;min-height:0;margin:0 -20px;padding:0 20px}
 
-  .field{margin-bottom:17px}
+  .field{margin-bottom:15px;flex-shrink:0}
   .field label{display:block;font-size:.8125rem;color:var(--muted);margin-bottom:6px}
-  .field select,.field input{width:100%;padding:11px 13px;border:1px solid var(--line);border-radius:10px;background:var(--surface)}
-  .field select{appearance:none;background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='12' height='8'><path d='M1 1l5 5 5-5' stroke='%2369736d' stroke-width='1.6' fill='none' stroke-linecap='round'/></svg>");background-repeat:no-repeat;background-position:right 13px center}
+  .field input{width:100%;padding:11px 13px;border:1px solid var(--line);border-radius:10px;background:var(--surface)}
 
-  .chips{display:flex;flex-wrap:wrap;gap:7px}
-  .chip{border:1px solid var(--line);background:var(--surface);color:var(--ink);padding:8px 14px;border-radius:999px;font-size:.9375rem}
+  /* Fachrichtungen: eine waagerecht scrollbare Reihe, weil es viele sind */
+  .chiprow{display:flex;gap:7px;overflow-x:auto;padding:2px 20px 12px;margin:0 -20px;flex-shrink:0;scrollbar-width:none}
+  .chiprow::-webkit-scrollbar{display:none}
+  .chip{border:1px solid var(--line);background:var(--surface);color:var(--ink);padding:7px 14px;border-radius:999px;font-size:.875rem;white-space:nowrap;flex-shrink:0}
   .chip[aria-pressed="true"]{background:var(--teal);border-color:var(--teal);color:#fff}
 
   .btn{display:block;width:100%;text-align:center;border:0;background:var(--teal);color:#fff;font-weight:600;padding:14px;border-radius:11px}
   .btn:hover{background:var(--teal-dark)}
+  .btn:disabled{background:var(--line);color:var(--muted);cursor:default}
   .btn--ghost{background:var(--surface);color:var(--ink);border:1px solid var(--line);font-weight:500}
   .btn--ghost:hover{background:var(--paper)}
   .btn--row{margin-top:9px}
 
-  .backlink{border:0;background:transparent;color:var(--muted);padding:0;margin-bottom:14px;text-align:left;font-size:.9375rem}
+  .backlink{border:0;background:transparent;color:var(--muted);padding:0;margin-bottom:14px;text-align:left;font-size:.9375rem;flex-shrink:0}
   .backlink:hover{color:var(--ink)}
 
-  .results{list-style:none;margin:4px 0 0;padding:0;overflow-y:auto;flex:1}
+  .results{list-style:none;margin:0;padding:0}
   .results li + li{border-top:1px solid var(--line-soft)}
   .result{width:100%;border:0;background:transparent;text-align:left;padding:14px 2px;display:flex;gap:12px;align-items:flex-start}
   .result:hover{background:var(--paper)}
@@ -103,8 +106,9 @@
   .pill--neutral{background:var(--paper);color:var(--muted)}
 
   .empty{color:var(--muted);font-size:.9375rem;padding:22px 2px;margin:0}
+  .empty button{margin-top:10px}
 
-  .praxishead{border-bottom:1px solid var(--line-soft);padding-bottom:15px;margin-bottom:20px}
+  .praxishead{border-bottom:1px solid var(--line-soft);padding-bottom:15px;margin-bottom:20px;flex-shrink:0}
   .praxishead h2{font-size:1.25rem;font-weight:600;letter-spacing:-.02em;margin:0 0 3px;line-height:1.25}
   .praxishead p{margin:0;font-size:.875rem;color:var(--muted)}
 
@@ -125,7 +129,7 @@
   .notice--warn strong{color:#5e3b04}
 
   .linkish{border:0;background:transparent;padding:0;color:var(--teal-dark);font-weight:500;text-decoration:underline;text-underline-offset:2px;font-size:.875rem;margin-top:10px}
-  .actions{margin-top:auto;padding-top:20px}
+  .actions{margin-top:auto;padding-top:20px;flex-shrink:0}
 
   /* ---------- Notizen neben dem Telefon ---------- */
   .notes{max-width:540px}
@@ -164,7 +168,6 @@
   .card__title{margin:0 0 4px;font-size:.9375rem;font-weight:600}
   .card__sub{margin:0 0 16px;color:var(--muted);font-size:.8438rem;line-height:1.45}
 
-  /* Streckenliste: das Herz des Empfangsbildschirms */
   .strecken{list-style:none;margin:0;padding:0}
   .strecken li + li{margin-top:9px}
   .strecke{
@@ -175,7 +178,7 @@
   .strecke[aria-current="true"]{border-color:var(--ink);background:var(--paper)}
   .strecke__name{font-weight:600;letter-spacing:-.01em}
   .strecke__sub{display:block;font-size:.8125rem;color:var(--muted);font-weight:400;margin-top:1px}
-  .strecke__verzug{font-size:1.5rem;font-weight:600;letter-spacing:-.03em;text-align:right;line-height:1.1}
+  .strecke__verzug{font-size:1.25rem;font-weight:600;letter-spacing:-.025em;text-align:right;line-height:1.15;white-space:nowrap}
   .strecke__verzug small{display:block;font-size:.6875rem;color:var(--muted);font-weight:500;letter-spacing:0}
 
   .steps{display:flex;gap:7px;margin:12px 0 0;flex-wrap:wrap}
@@ -187,20 +190,19 @@
   .outcome__v{margin:1px 0 0;font-size:1.75rem;font-weight:600;letter-spacing:-.03em;color:var(--teal-dark);line-height:1.1}
   .outcome__why{margin:7px 0 0;font-size:.8125rem;color:#3f6a60;line-height:1.45}
 
-  /* Zeitraster zum Antippen — ohne einen einzigen Namen */
-  .raster{list-style:none;margin:0;padding:0;max-height:420px;overflow-y:auto}
-  .raster li{display:flex;align-items:center;gap:10px;border-top:1px solid var(--line-soft)}
+  /* Zeitraster zum Antippen — Nummer und Uhrzeit, keine Namen */
+  .raster{list-style:none;margin:0;padding:0;max-height:430px;overflow-y:auto;position:relative}
+  .raster li{display:flex;align-items:center;gap:8px;border-top:1px solid var(--line-soft)}
   .raster li:first-child{border-top:0}
-  .rtime{
-    flex:1;display:flex;align-items:center;gap:12px;border:0;background:transparent;
-    text-align:left;padding:11px 2px;min-width:0;
-  }
+  .rtime{flex:1;display:flex;align-items:center;gap:11px;border:0;background:transparent;text-align:left;padding:11px 2px;min-width:0}
   .rtime:hover{background:var(--paper)}
+  .rtime__nr{width:24px;flex-shrink:0;text-align:right;font-size:.8125rem;color:var(--muted);font-weight:500}
   .rtime__t{font-weight:600;width:46px;flex-shrink:0}
   .rtime__art{flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font-size:.9375rem}
   .rtime__art small{color:var(--muted)}
   .rtime__st{font-size:.75rem;font-weight:600;padding:3px 8px;border-radius:7px;flex-shrink:0;background:var(--paper);color:var(--muted)}
-  .is-laeuft .rtime__t{color:var(--teal-dark)}
+  .is-laeuft .rtime__t,.is-laeuft .rtime__nr{color:var(--teal-dark)}
+  .is-laeuft .rtime__nr{font-weight:700}
   .is-laeuft .rtime__st{background:var(--teal-wash);color:var(--teal-dark)}
   .is-erledigt{color:var(--muted)}
   .is-entfallen .rtime__art{text-decoration:line-through;text-decoration-color:var(--line)}
@@ -224,7 +226,7 @@
 
 <header class="demobar">
   <div class="demobar__brand">WaitAway <span>— Demo</span></div>
-  <p class="demobar__note">Prototyp. Beide Ansichten teilen dieselben Daten. Der Verzug gehört der Behandlungsstrecke, nicht der Praxis.</p>
+  <p class="demobar__note">Prototyp. Beide Ansichten teilen dieselben Daten. Der Verzug gehört dem einzelnen Arzt oder Behandlungsplatz, nicht der ganzen Praxis.</p>
   <div class="demobar__switch" role="tablist" aria-label="Ansicht wählen">
     <button class="demobar__tab" role="tab" id="tab-patient" aria-selected="true" aria-controls="view-patient">Patienten-App</button>
     <button class="demobar__tab" role="tab" id="tab-praxis" aria-selected="false" aria-controls="view-praxis">Praxis-Dashboard</button>
@@ -249,7 +251,7 @@
 
       <div class="notes">
         <h3>Was diese Ansicht zeigt</h3>
-        <p>Der Patient sucht Ort und Fachrichtung, wählt Praxis und Behandlungsstrecke und sieht eine einzige Zahl: wann er losgehen soll. Den rohen Verzug sieht er nicht.</p>
+        <p>Erst der Ort, dann eine Liste aller Praxen darin, die sich live durch Tippen und Fachrichtung filtert. Danach den Arzt wählen und eine einzige Zahl ablesen.</p>
 
         <div class="panel">
           <h4>Demo-Steuerung</h4>
@@ -274,7 +276,7 @@
 
         <div class="panel">
           <h4>Was euer Server davon speichert</h4>
-          <p>Pro Behandlungsstrecke genau eine Zahl und einen Zeitstempel. Keine Namen, keine Termine, keine Diagnosen — der Zeitraster im Dashboard ist eine reine Uhrzeitenspalte.</p>
+          <p>Pro Arzt oder Behandlungsplatz eine Minutenzahl, die laufende Nummer und einen Zeitstempel. Keine Namen, keine Termine, keine Diagnosen.</p>
         </div>
       </div>
 
@@ -299,40 +301,42 @@
 
     <div class="dash__grid">
 
-      <!-- Linke Spalte: alle Strecken auf einen Blick -->
       <div>
         <div class="card">
-          <p class="card__title">Behandlungsstrecken</p>
-          <p class="card__sub">Jede Strecke hat ihren eigenen Verzug. Anklicken, um sie rechts zu bearbeiten.</p>
+          <p class="card__title">Ärzte und Behandlungsplätze</p>
+          <p class="card__sub">Jeder Arzt und jeder Stuhl läuft eigenständig: eigener Verzug, eigene laufende Nummer. Anklicken, um rechts zu bearbeiten.</p>
           <ul class="strecken" id="streckenListe"></ul>
         </div>
 
         <div class="card">
-          <p class="card__title">Zeitraster <span id="rasterName" style="font-weight:400;color:var(--muted)"></span></p>
-          <p class="card__sub">Tippe die Planzeit des Patienten an, der gerade hereingegangen ist. Übersprungene Zeiten gelten als entfallen — eine Absage verfälscht den Verzug also nicht.</p>
+          <p class="card__title">Sprechstunde heute <span id="rasterName" style="font-weight:400;color:var(--muted)"></span></p>
+          <p class="card__sub">Normalfall: „Nächster Patient“ rechts. Wenn jemand abgesagt hat oder vorgezogen wurde, tippe stattdessen die Nummer direkt an — übersprungene Nummern gelten als entfallen.</p>
           <p class="notice notice--warn" id="ueberzug" hidden></p>
+          <p class="notice" id="rasterHinweis" hidden></p>
           <ul class="raster" id="raster"></ul>
+          <button class="linkish" id="btnTagNeu">Sprechstunde für die Demo zurücksetzen</button>
         </div>
       </div>
 
-      <!-- Rechte Spalte: die gewählte Strecke -->
       <div>
         <div class="card">
           <p class="card__title" id="selName">—</p>
-          <p class="card__sub">Verzug direkt setzen, falls nicht angetippt wird.</p>
+          <p class="card__sub" id="selSub">—</p>
           <div class="outcome">
             <p class="outcome__k">Patienten kommen</p>
             <p class="outcome__v" id="outVal">wie geplant</p>
             <p class="outcome__why" id="outWhy"></p>
           </div>
+          <button class="btn" id="btnNaechster" style="margin-top:14px">Nächster Patient</button>
+          <button class="btn btn--ghost btn--row" id="btnSenden">Aktualisierung senden</button>
+          <p class="card__sub" style="margin:10px 0 0" id="lastUpdate">Noch nicht aktualisiert.</p>
           <div class="steps">
             <button data-delta="-10">−10</button>
             <button data-delta="-5">−5</button>
             <button data-delta="5">+5</button>
             <button data-delta="10">+10</button>
           </div>
-          <button class="btn" id="btnSenden" style="margin-top:12px">Aktualisierung senden</button>
-          <p class="card__sub" style="margin:10px 0 0" id="lastUpdate">Noch nicht aktualisiert.</p>
+          <p class="card__sub" style="margin:9px 0 0">Verzug von Hand korrigieren, falls nicht aufgerufen wird.</p>
         </div>
 
         <div class="card">
@@ -351,10 +355,16 @@
             <input type="number" id="setSchwelle" min="0" max="60" step="5">
           </div>
           <div class="setting">
-            <label for="setSchliesst">Praxis schließt um
-              <small>Ab hier schlägt WaitAway die Verlegung auf morgen vor.</small>
+            <label for="setOeffnet">Sprechstunde beginnt
+              <small>Ab dieser Uhrzeit wird der Tagesplan gefüllt.</small>
             </label>
-            <input type="number" id="setSchliesst" min="12" max="22" step="1">
+            <input type="number" id="setOeffnet" min="6" max="13" step="1">
+          </div>
+          <div class="setting">
+            <label for="setSchliesst">Sprechstunde endet
+              <small>Der letzte Termin endet spätestens hier. Danach schlägt WaitAway die Verlegung auf morgen vor.</small>
+            </label>
+            <input type="number" id="setSchliesst" min="14" max="22" step="1">
           </div>
         </div>
       </div>
@@ -370,72 +380,87 @@
 
   /* ============================================================
      ABSCHNITT 1 — DATEN
-     Hier neue Praxen, Städte, Fachrichtungen oder Strecken eintragen.
-     "strecken" sind die Namen, "verzuege" die Startwerte in Minuten
-     (gleiche Reihenfolge, gleiche Anzahl).
+     Neue Praxis: eine Zeile in PRAXEN kopieren und ausfüllen.
+     Die id vergibt das Programm selbst, darum musst du nichts zählen.
+     "strecken" und "verzuege" müssen gleich viele Einträge haben.
+     Nicht jede Stadt hat jede Fachrichtung — das ist gewollt und
+     zeigt im Pitch, dass nur mitmachende Praxen auftauchen.
      ============================================================ */
 
   var PRODUKT = "WaitAway";
 
   var STAEDTE = ["Köln","Düsseldorf","Essen","Münster","Bonn"];
-  var FACHRICHTUNGEN = ["Hausarzt","Zahnarzt","Orthopäde","Hautarzt"];
+
+  var FACHRICHTUNGEN = ["Hausarzt","Zahnarzt","Kinderarzt","Frauenarzt","Augenarzt","HNO",
+                        "Orthopäde","Hautarzt","Urologe","Neurologe","Internist","Psychotherapie"];
 
   var PRAXEN = [
-    {id:1, name:"Praxis Dr. Behrens", fach:"Hausarzt", stadt:"Köln", viertel:"Ehrenfeld",
-     adresse:"Venloer Str. 142, 50823 Köln", tel:"0221 55 44 21",
-     strecken:["Dr. Behrens","Dr. Lindqvist","Dr. Ameri"], verzuege:[35,0,15]},
+    // ---------- Köln ----------
+    {name:"Praxis Dr. Behrens", fach:"Hausarzt", stadt:"Köln", viertel:"Ehrenfeld", strasse:"Venloer Str. 142", tel:"0221 55 44 21", strecken:["Dr. Behrens","Dr. Lindqvist","Dr. Ameri"], verzuege:[35,0,15]},
+    {name:"Hausarztzentrum Severinsviertel", fach:"Hausarzt", stadt:"Köln", viertel:"Altstadt-Süd", strasse:"Severinstr. 88", tel:"0221 31 90 07", strecken:["Dr. Weerasinghe"], verzuege:[0]},
+    {name:"Praxis Kalk am Markt", fach:"Hausarzt", stadt:"Köln", viertel:"Kalk", strasse:"Kalker Hauptstr. 55", tel:"0221 85 12 40", strecken:["Dr. Tekin","Dr. Rohde"], verzuege:[20,10]},
+    {name:"Zahnärzte am Rudolfplatz", fach:"Zahnarzt", stadt:"Köln", viertel:"Neustadt-Süd", strasse:"Habsburgerring 2", tel:"0221 24 11 55", strecken:["Stuhl 1 — Dr. Mertens","Stuhl 2 — Dr. Yildiz","Prophylaxe"], verzuege:[15,40,5]},
+    {name:"Zahnklinik Hohe Straße", fach:"Zahnarzt", stadt:"Köln", viertel:"Altstadt-Nord", strasse:"Hohe Str. 112", tel:"0221 27 36 80", strecken:["Stuhl 1","Stuhl 2","Stuhl 3","Prophylaxe"], verzuege:[0,20,10,5]},
+    {name:"Zahnarztpraxis Nippes", fach:"Zahnarzt", stadt:"Köln", viertel:"Nippes", strasse:"Neusser Str. 210", tel:"0221 76 40 33", strecken:["Stuhl 1","Prophylaxe"], verzuege:[0,0]},
+    {name:"Kinderarztpraxis Sülz", fach:"Kinderarzt", stadt:"Köln", viertel:"Sülz", strasse:"Berrenrather Str. 191", tel:"0221 41 05 72", strecken:["Dr. Hübner","Infektsprechstunde"], verzuege:[45,20]},
+    {name:"Kinder- und Jugendmedizin Mülheim", fach:"Kinderarzt", stadt:"Köln", viertel:"Mülheim", strasse:"Frankfurter Str. 40", tel:"0221 96 18 05", strecken:["Dr. Agyeman"], verzuege:[0]},
+    {name:"Frauenärztinnen am Friesenplatz", fach:"Frauenarzt", stadt:"Köln", viertel:"Innenstadt", strasse:"Friesenstr. 72", tel:"0221 25 70 14", strecken:["Dr. Petrov","Dr. Lammers"], verzuege:[30,0]},
+    {name:"Gynäkologie Rodenkirchen", fach:"Frauenarzt", stadt:"Köln", viertel:"Rodenkirchen", strasse:"Hauptstr. 48", tel:"0221 39 22 60", strecken:["Dr. Winkler"], verzuege:[10]},
+    {name:"Augenzentrum Neumarkt", fach:"Augenarzt", stadt:"Köln", viertel:"Innenstadt", strasse:"Cäcilienstr. 32", tel:"0221 20 55 90", strecken:["Dr. Strauß","Dr. Nakamura","Sehschule"], verzuege:[20,5,0]},
+    {name:"Augenarztpraxis Ehrenfeld", fach:"Augenarzt", stadt:"Köln", viertel:"Ehrenfeld", strasse:"Körnerstr. 7", tel:"0221 51 48 26", strecken:["Dr. Baumgart"], verzuege:[0]},
+    {name:"HNO am Hansaring", fach:"HNO", stadt:"Köln", viertel:"Altstadt-Nord", strasse:"Hansaring 90", tel:"0221 13 72 44", strecken:["Dr. Pilz","Hörtest"], verzuege:[15,0]},
+    {name:"HNO-Praxis Porz", fach:"HNO", stadt:"Köln", viertel:"Porz", strasse:"Hauptstr. 320", tel:"0221 70 31 18", strecken:["Dr. Czerwinski"], verzuege:[35]},
+    {name:"Orthopädie Rheinpark", fach:"Orthopäde", stadt:"Köln", viertel:"Deutz", strasse:"Siegburger Str. 15", tel:"0221 88 07 30", strecken:["Dr. Fischer","Dr. Bartoszek","Physiotherapie"], verzuege:[10,0,0]},
+    {name:"Orthopädische Praxis Klettenberg", fach:"Orthopäde", stadt:"Köln", viertel:"Klettenberg", strasse:"Luxemburger Str. 285", tel:"0221 46 90 51", strecken:["Dr. Sommer"], verzuege:[5]},
+    {name:"Dr. Okonkwo — Dermatologie", fach:"Hautarzt", stadt:"Köln", viertel:"Sülz", strasse:"Zülpicher Str. 301", tel:"0221 94 02 18", strecken:["Dr. Okonkwo","Privatambulanz"], verzuege:[50,10]},
+    {name:"Hautarztzentrum Lindenthal", fach:"Hautarzt", stadt:"Köln", viertel:"Lindenthal", strasse:"Dürener Str. 180", tel:"0221 43 61 09", strecken:["Dr. Kuhn"], verzuege:[25]},
+    {name:"Urologie Innenstadt Köln", fach:"Urologe", stadt:"Köln", viertel:"Neustadt-Nord", strasse:"Hohenzollernring 54", tel:"0221 12 44 70", strecken:["Dr. Reinartz","Dr. Sobczak"], verzuege:[0,25]},
+    {name:"Urologische Praxis Chorweiler", fach:"Urologe", stadt:"Köln", viertel:"Chorweiler", strasse:"Mailänder Passage 1", tel:"0221 70 92 36", strecken:["Dr. Friedrich"], verzuege:[15]},
+    {name:"Neurologische Praxis Zollstock", fach:"Neurologe", stadt:"Köln", viertel:"Zollstock", strasse:"Höninger Weg 100", tel:"0221 36 58 12", strecken:["Dr. Haberland"], verzuege:[40]},
+    {name:"Neurozentrum Köln-Süd", fach:"Neurologe", stadt:"Köln", viertel:"Bayenthal", strasse:"Bonner Str. 220", tel:"0221 38 14 95", strecken:["Dr. Esposito","EEG-Labor"], verzuege:[0,0]},
+    {name:"Internistische Praxis Weiden", fach:"Internist", stadt:"Köln", viertel:"Weiden", strasse:"Aachener Str. 1240", tel:"0221 50 33 87", strecken:["Dr. Bergmann","Sonografie"], verzuege:[10,30]},
+    {name:"Psychotherapie Agnesviertel", fach:"Psychotherapie", stadt:"Köln", viertel:"Neustadt-Nord", strasse:"Weißenburgstr. 18", tel:"0221 73 20 41", strecken:["Frau Dr. Ohlsen"], verzuege:[0]},
 
-    {id:2, name:"Hausarztzentrum Severinsviertel", fach:"Hausarzt", stadt:"Köln", viertel:"Altstadt-Süd",
-     adresse:"Severinstr. 88, 50678 Köln", tel:"0221 31 90 07",
-     strecken:["Dr. Weerasinghe"], verzuege:[0]},
+    // ---------- Düsseldorf ----------
+    {name:"Praxis Dr. Vogt & Kollegen", fach:"Hausarzt", stadt:"Düsseldorf", viertel:"Bilk", strasse:"Friedrichstr. 60", tel:"0211 33 48 90", strecken:["Dr. Vogt","Dr. Castellanos"], verzuege:[20,45]},
+    {name:"Hausarztpraxis Flingern", fach:"Hausarzt", stadt:"Düsseldorf", viertel:"Flingern", strasse:"Birkenstr. 44", tel:"0211 67 15 22", strecken:["Dr. Nkemelu"], verzuege:[0]},
+    {name:"Zahnklinik Königsallee", fach:"Zahnarzt", stadt:"Düsseldorf", viertel:"Stadtmitte", strasse:"Königsallee 44", tel:"0211 86 22 14", strecken:["Stuhl 1","Stuhl 2","Stuhl 3","Prophylaxe"], verzuege:[0,25,10,0]},
+    {name:"Kinderärzte Pempelfort", fach:"Kinderarzt", stadt:"Düsseldorf", viertel:"Pempelfort", strasse:"Nordstr. 92", tel:"0211 49 07 63", strecken:["Dr. Lind","Impfsprechstunde"], verzuege:[15,0]},
+    {name:"Frauenarztpraxis Unterbilk", fach:"Frauenarzt", stadt:"Düsseldorf", viertel:"Unterbilk", strasse:"Lorettostr. 20", tel:"0211 30 55 81", strecken:["Dr. Maier","Dr. Dvořák"], verzuege:[0,35]},
+    {name:"Augenarztpraxis Derendorf", fach:"Augenarzt", stadt:"Düsseldorf", viertel:"Derendorf", strasse:"Münsterstr. 110", tel:"0211 44 29 07", strecken:["Dr. Scholz"], verzuege:[10]},
+    {name:"HNO-Zentrum Benrath", fach:"HNO", stadt:"Düsseldorf", viertel:"Benrath", strasse:"Hauptstr. 30", tel:"0211 71 84 50", strecken:["Dr. Kowalczyk"], verzuege:[0]},
+    {name:"Orthopädie Düsseldorf-Nord", fach:"Orthopäde", stadt:"Düsseldorf", viertel:"Golzheim", strasse:"Kaiserswerther Str. 215", tel:"0211 45 61 38", strecken:["Dr. Hennings","Dr. Baran"], verzuege:[25,5]},
+    {name:"Hautarztpraxis Oberkassel", fach:"Hautarzt", stadt:"Düsseldorf", viertel:"Oberkassel", strasse:"Luegallee 71", tel:"0211 55 71 06", strecken:["Dr. Hallstein"], verzuege:[40]},
+    {name:"Internisten am Schadowplatz", fach:"Internist", stadt:"Düsseldorf", viertel:"Stadtmitte", strasse:"Schadowstr. 11", tel:"0211 13 90 24", strecken:["Dr. Ritter","Dr. Aslan"], verzuege:[30,0]},
 
-    {id:3, name:"Zahnärzte am Rudolfplatz", fach:"Zahnarzt", stadt:"Köln", viertel:"Neustadt-Süd",
-     adresse:"Habsburgerring 2, 50674 Köln", tel:"0221 24 11 55",
-     strecken:["Stuhl 1 — Dr. Mertens","Stuhl 2 — Dr. Yildiz","Prophylaxe"], verzuege:[15,40,5]},
+    // ---------- Essen ----------
+    {name:"Gemeinschaftspraxis Rüttenscheid", fach:"Hausarzt", stadt:"Essen", viertel:"Rüttenscheid", strasse:"Rüttenscheider Str. 180", tel:"0201 77 31 25", strecken:["Dr. Nowak","Dr. Abedi","Dr. Thiele"], verzuege:[25,5,30]},
+    {name:"Hausarztpraxis Borbeck", fach:"Hausarzt", stadt:"Essen", viertel:"Borbeck", strasse:"Germaniaplatz 4", tel:"0201 61 48 90", strecken:["Dr. Kasprzak"], verzuege:[0]},
+    {name:"Zahnarztpraxis Steele", fach:"Zahnarzt", stadt:"Essen", viertel:"Steele", strasse:"Kaiser-Wilhelm-Str. 22", tel:"0201 55 09 17", strecken:["Stuhl 1","Prophylaxe"], verzuege:[10,0]},
+    {name:"Kinderarztpraxis Frohnhausen", fach:"Kinderarzt", stadt:"Essen", viertel:"Frohnhausen", strasse:"Gervinusstr. 50", tel:"0201 72 36 44", strecken:["Dr. Samuelsson"], verzuege:[35]},
+    {name:"Augenzentrum Essen-Mitte", fach:"Augenarzt", stadt:"Essen", viertel:"Stadtkern", strasse:"Kettwiger Str. 36", tel:"0201 24 11 08", strecken:["Dr. Brauer","Sehschule"], verzuege:[0,20]},
+    {name:"Frauenärztinnen Kettwig", fach:"Frauenarzt", stadt:"Essen", viertel:"Kettwig", strasse:"Hauptstr. 62", tel:"0201 84 50 31", strecken:["Dr. Imhoff"], verzuege:[0]},
+    {name:"Orthopädie am Baldeneysee", fach:"Orthopäde", stadt:"Essen", viertel:"Werden", strasse:"Heckstr. 9", tel:"0201 49 08 62", strecken:["Dr. Grabowski"], verzuege:[5]},
+    {name:"Hautarztpraxis Holsterhausen", fach:"Hautarzt", stadt:"Essen", viertel:"Holsterhausen", strasse:"Holsterhauser Str. 140", tel:"0201 78 22 05", strecken:["Dr. Venturi"], verzuege:[45]},
 
-    {id:4, name:"Dr. Okonkwo — Dermatologie", fach:"Hautarzt", stadt:"Köln", viertel:"Sülz",
-     adresse:"Zülpicher Str. 301, 50937 Köln", tel:"0221 94 02 18",
-     strecken:["Dr. Okonkwo","Privatambulanz"], verzuege:[50,10]},
+    // ---------- Münster ----------
+    {name:"Praxis am Aasee", fach:"Hausarzt", stadt:"Münster", viertel:"Aaseestadt", strasse:"Weseler Str. 210", tel:"0251 87 40 19", strecken:["Dr. Brinkmann","Dr. Oyelaran"], verzuege:[30,0]},
+    {name:"Hausarztpraxis Hiltrup", fach:"Hausarzt", stadt:"Münster", viertel:"Hiltrup", strasse:"Marktallee 18", tel:"0251 93 06 55", strecken:["Dr. Lücke"], verzuege:[10]},
+    {name:"Zahnarztpraxis Dr. Albers", fach:"Zahnarzt", stadt:"Münster", viertel:"Kreuzviertel", strasse:"Kanalstr. 23", tel:"0251 62 14 77", strecken:["Stuhl 1 — Dr. Albers","Prophylaxe"], verzuege:[0,0]},
+    {name:"Kinderärzte am Hafen", fach:"Kinderarzt", stadt:"Münster", viertel:"Hafenviertel", strasse:"Hafenweg 12", tel:"0251 41 88 30", strecken:["Dr. Terzi"], verzuege:[0]},
+    {name:"Augenarztpraxis Gievenbeck", fach:"Augenarzt", stadt:"Münster", viertel:"Gievenbeck", strasse:"Roxeler Str. 55", tel:"0251 86 21 40", strecken:["Dr. Wessel"], verzuege:[25]},
+    {name:"HNO-Praxis Mauritzviertel", fach:"HNO", stadt:"Münster", viertel:"Mauritz", strasse:"Warendorfer Str. 30", tel:"0251 51 33 72", strecken:["Dr. Janssen"], verzuege:[0]},
+    {name:"Orthopädie Münster-Zentrum", fach:"Orthopäde", stadt:"Münster", viertel:"Altstadt", strasse:"Ludgeristr. 70", tel:"0251 48 05 26", strecken:["Dr. Schäfer","Stoßwellentherapie"], verzuege:[20,0]},
 
-    {id:5, name:"Orthopädie Rheinpark", fach:"Orthopäde", stadt:"Köln", viertel:"Deutz",
-     adresse:"Siegburger Str. 15, 50679 Köln", tel:"0221 88 07 30",
-     strecken:["Dr. Fischer","Dr. Bartoszek","Physiotherapie"], verzuege:[10,0,0]},
-
-    {id:6, name:"Praxis Dr. Vogt & Kollegen", fach:"Hausarzt", stadt:"Düsseldorf", viertel:"Bilk",
-     adresse:"Friedrichstr. 60, 40217 Düsseldorf", tel:"0211 33 48 90",
-     strecken:["Dr. Vogt","Dr. Castellanos"], verzuege:[20,45]},
-
-    {id:7, name:"Zahnklinik Königsallee", fach:"Zahnarzt", stadt:"Düsseldorf", viertel:"Stadtmitte",
-     adresse:"Königsallee 44, 40212 Düsseldorf", tel:"0211 86 22 14",
-     strecken:["Stuhl 1","Stuhl 2","Stuhl 3","Prophylaxe"], verzuege:[0,25,10,0]},
-
-    {id:8, name:"Hautarztpraxis Oberkassel", fach:"Hautarzt", stadt:"Düsseldorf", viertel:"Oberkassel",
-     adresse:"Luegallee 71, 40545 Düsseldorf", tel:"0211 55 71 06",
-     strecken:["Dr. Hallstein"], verzuege:[40]},
-
-    {id:9, name:"Gemeinschaftspraxis Rüttenscheid", fach:"Hausarzt", stadt:"Essen", viertel:"Rüttenscheid",
-     adresse:"Rüttenscheider Str. 180, 45131 Essen", tel:"0201 77 31 25",
-     strecken:["Dr. Nowak","Dr. Abedi","Dr. Thiele"], verzuege:[25,5,30]},
-
-    {id:10, name:"Orthopädie am Baldeneysee", fach:"Orthopäde", stadt:"Essen", viertel:"Werden",
-     adresse:"Heckstr. 9, 45239 Essen", tel:"0201 49 08 62",
-     strecken:["Dr. Grabowski"], verzuege:[5]},
-
-    {id:11, name:"Zahnarztpraxis Dr. Albers", fach:"Zahnarzt", stadt:"Münster", viertel:"Kreuzviertel",
-     adresse:"Kanalstr. 23, 48147 Münster", tel:"0251 62 14 77",
-     strecken:["Stuhl 1 — Dr. Albers","Prophylaxe"], verzuege:[0,0]},
-
-    {id:12, name:"Praxis am Aasee", fach:"Hausarzt", stadt:"Münster", viertel:"Aaseestadt",
-     adresse:"Weseler Str. 210, 48151 Münster", tel:"0251 87 40 19",
-     strecken:["Dr. Brinkmann","Dr. Oyelaran"], verzuege:[30,0]},
-
-    {id:13, name:"Dermatologie Bonn-Süd", fach:"Hautarzt", stadt:"Bonn", viertel:"Südstadt",
-     adresse:"Reuterstr. 51, 53113 Bonn", tel:"0228 21 55 40",
-     strecken:["Dr. Seidel","Dr. Marchetti"], verzuege:[45,20]},
-
-    {id:14, name:"Orthopädische Praxis Beuel", fach:"Orthopäde", stadt:"Bonn", viertel:"Beuel",
-     adresse:"Friedrich-Breuer-Str. 70, 53225 Bonn", tel:"0228 46 70 12",
-     strecken:["Dr. Hoffmann","Stoßwellentherapie"], verzuege:[0,0]}
+    // ---------- Bonn ----------
+    {name:"Hausarztpraxis Poppelsdorf", fach:"Hausarzt", stadt:"Bonn", viertel:"Poppelsdorf", strasse:"Clemens-August-Str. 28", tel:"0228 61 70 35", strecken:["Dr. Kremer","Dr. Nsibu"], verzuege:[15,0]},
+    {name:"Zahnärzte am Münsterplatz", fach:"Zahnarzt", stadt:"Bonn", viertel:"Zentrum", strasse:"Münsterplatz 9", tel:"0228 24 15 60", strecken:["Stuhl 1","Stuhl 2","Prophylaxe"], verzuege:[5,30,0]},
+    {name:"Kinderarztpraxis Bad Godesberg", fach:"Kinderarzt", stadt:"Bonn", viertel:"Bad Godesberg", strasse:"Koblenzer Str. 60", tel:"0228 35 42 18", strecken:["Dr. Vasquez"], verzuege:[20]},
+    {name:"Frauenarztpraxis Bonn-Nord", fach:"Frauenarzt", stadt:"Bonn", viertel:"Castell", strasse:"Bornheimer Str. 130", tel:"0228 67 90 04", strecken:["Dr. Steinkamp"], verzuege:[0]},
+    {name:"Dermatologie Bonn-Süd", fach:"Hautarzt", stadt:"Bonn", viertel:"Südstadt", strasse:"Reuterstr. 51", tel:"0228 21 55 40", strecken:["Dr. Seidel","Dr. Marchetti"], verzuege:[45,20]},
+    {name:"Orthopädische Praxis Beuel", fach:"Orthopäde", stadt:"Bonn", viertel:"Beuel", strasse:"Friedrich-Breuer-Str. 70", tel:"0228 46 70 12", strecken:["Dr. Hoffmann","Stoßwellentherapie"], verzuege:[0,0]},
+    {name:"Internistische Praxis Kessenich", fach:"Internist", stadt:"Bonn", viertel:"Kessenich", strasse:"Burbacher Str. 20", tel:"0228 23 81 47", strecken:["Dr. Lehmann"], verzuege:[0]},
+    {name:"Psychotherapie Bonn-Zentrum", fach:"Psychotherapie", stadt:"Bonn", viertel:"Zentrum", strasse:"Kaiserplatz 3", tel:"0228 18 60 92", strecken:["Herr Dr. Falkner"], verzuege:[0]}
   ];
 
   var TERMINARTEN = [
@@ -447,10 +472,13 @@
     {art:"Nachsorge", dauer:20}
   ];
 
-  // Aus der kompakten Tabelle oben echte Strecken-Objekte bauen.
-  PRAXEN.forEach(function(p){
+  // Aus der Tabelle oben vollständige Objekte bauen: id, Adresse, Strecken.
+  PRAXEN.forEach(function(p, index){
+    p.id = index + 1;
+    p.adresse = p.strasse + ", " + p.stadt;
     p.puffer = 20;
     p.schwelle = 15;
+    p.oeffnet = 8;
     p.schliesst = 18;
     p.strecken = p.strecken.map(function(label, i){
       return {
@@ -467,7 +495,6 @@
 
   /* ============================================================
      ABSCHNITT 2 — HILFSFUNKTIONEN
-     Kleine Werkzeuge für Uhrzeiten.
      ============================================================ */
 
   function hhmm(d){
@@ -476,46 +503,70 @@
   function plusMin(d,m){ return new Date(d.getTime() + m*60000); }
   function minDiff(a,b){ return Math.round((a-b)/60000); }
   function abRunden5(m){ return Math.floor(m/5)*5; }
+  function esc(s){ return String(s).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/"/g,"&quot;"); }
 
-  // Zeitraster rund um die aktuelle Uhrzeit, damit die Demo
-  // zu jeder Tageszeit plausibel aussieht.
+  function uhrzeitHeute(stunde){
+    var d = new Date();
+    d.setHours(stunde, 0, 0, 0);
+    return d;
+  }
+
+  /* Sprechstunde von der Öffnung bis zur Schließung, Termin für Termin.
+     Jeder Termin ist so lang, wie seine Terminart dauert — der letzte
+     endet also spätestens zur Schließzeit. Dadurch ist ein Überzug immer
+     genau so groß wie der Verzug und nicht größer. */
   function raster(strecke){
     if(strecke.termine) return strecke.termine;
+    var p = strecke.praxis;
     var jetzt = new Date();
-    var grid = new Date(jetzt);
-    grid.setSeconds(0,0);
-    grid.setMinutes(Math.floor(grid.getMinutes()/15)*15);
-    var start = plusMin(grid, -6*15);
+    var slot = uhrzeitHeute(p.oeffnet);
+    var feierabend = uhrzeitHeute(p.schliesst);
 
     var liste = [];
-    for(var i=0;i<18;i++){
-      var plan = plusMin(start, i*15);
+    var i = 0;
+    while(i < 200){
       var typ = TERMINARTEN[(i + strecke.label.length) % TERMINARTEN.length];
+      if(plusMin(slot, typ.dauer) > feierabend) break;
       liste.push({
         nr: i,
-        plan: plan,
+        nummer: i + 1,            // laufende Nummer für den Empfang
+        plan: new Date(slot),
         art: typ.art,
         dauer: typ.dauer,
-        status: minDiff(jetzt, plan) > 60 ? "erledigt" : "offen",
+        status: plusMin(slot, typ.dauer) <= jetzt ? "erledigt" : "offen",
         notfall: (i + strecke.label.length) % 7 === 3
       });
+      slot = plusMin(slot, typ.dauer);
+      i++;
     }
     strecke.termine = liste;
     return liste;
   }
 
+  // Sprechstunde neu aufsetzen, z. B. nach geänderten Öffnungszeiten.
+  function tagNeu(p){
+    p.strecken.forEach(function(s){ s.termine = null; });
+  }
+
+  function laufendeNummer(strecke){
+    var liste = raster(strecke);
+    for(var i=0;i<liste.length;i++){ if(liste[i].status === "laeuft") return liste[i].nummer; }
+    return null;
+  }
+  function ersterOffener(liste){
+    for(var i=0;i<liste.length;i++){ if(liste[i].status === "offen") return liste[i]; }
+    return null;
+  }
+
   /* ============================================================
      ABSCHNITT 3 — DIE REGEL
      Das Herz des Produkts: was erfährt der Patient?
-     Nur hier anpassen, wenn sich die Logik ändern soll.
      ============================================================ */
 
   function weitergabe(strecke){
     var p = strecke.praxis;
     var nachPuffer = strecke.verzug - p.puffer;
-    if(nachPuffer < p.schwelle){
-      return {minuten:0, nachPuffer:nachPuffer};
-    }
+    if(nachPuffer < p.schwelle) return {minuten:0, nachPuffer:nachPuffer};
     return {minuten: abRunden5(nachPuffer), nachPuffer:nachPuffer};
   }
 
@@ -526,13 +577,11 @@
   }
   function statusText(min){ return min <= 0 ? "im Plan" : "+" + min + " Min"; }
 
-  // Für die Trefferliste: wie fasst man mehrere Strecken zusammen?
   function praxisStatus(p){
     var werte = p.strecken.map(function(s){ return weitergabe(s).minuten; });
     var min = Math.min.apply(null, werte);
     var max = Math.max.apply(null, werte);
-    if(p.strecken.length === 1) return {text: statusText(max), stufe: stufe(max)};
-    if(min === max) return {text: statusText(max), stufe: stufe(max)};
+    if(p.strecken.length === 1 || min === max) return {text: statusText(max), stufe: stufe(max)};
     return {text: statusText(min) + " bis " + statusText(max), stufe: stufe(max)};
   }
 
@@ -551,7 +600,6 @@
 
   /* ============================================================
      ABSCHNITT 4 — ZUSTAND
-     Was die App sich gerade merkt.
      ============================================================ */
 
   var standardTermin = (function(){
@@ -561,7 +609,7 @@
   })();
 
   var patient = {
-    screen:"suche", stadt:"Köln", fach:null, query:"",
+    screen:"ort", stadt:null, fach:null, query:"",
     praxisId:null, streckeId:null,
     termin:standardTermin, fern:false, trotzdem:false, erweitert:false
   };
@@ -570,6 +618,7 @@
 
   /* ============================================================
      ABSCHNITT 5 — PATIENTENANSICHT
+     Bildschirme: ort → liste → strecke → detail
      ============================================================ */
 
   var app = document.getElementById("app");
@@ -583,76 +632,84 @@
   }
 
   function renderPatient(){
-    if(patient.screen === "suche")   return renderSuche();
+    if(patient.screen === "ort")     return renderOrt();
     if(patient.screen === "liste")   return renderListe();
     if(patient.screen === "strecke") return renderStreckenwahl();
     return renderDetail();
   }
 
-  function renderSuche(){
+  /* --- Bildschirm 1: Ort --- */
+  function renderOrt(){
     app.innerHTML =
       '<p class="app__kicker">' + PRODUKT + '</p>' +
       '<h1 class="app__title">Wie lange wartet<br>Ihre Praxis gerade?</h1>' +
-      '<div class="field"><label for="pStadt">Ort</label><select id="pStadt">' +
-        STAEDTE.map(function(s){ return '<option' + (s===patient.stadt?' selected':'') + '>' + s + '</option>'; }).join("") +
-      '</select></div>' +
-      '<div class="field"><label>Fachrichtung</label><div class="chips" id="pFach">' +
-        FACHRICHTUNGEN.map(function(f){
-          return '<button class="chip" aria-pressed="' + (patient.fach===f) + '" data-fach="' + f + '">' + f + '</button>';
+      '<p class="app__kicker" style="margin:-14px 0 8px">Wo suchen Sie?</p>' +
+      '<div class="app__scroll"><ul class="results">' +
+        STAEDTE.map(function(stadt){
+          var anzahl = PRAXEN.filter(function(p){ return p.stadt === stadt; }).length;
+          return '<li><button class="result" data-stadt="' + esc(stadt) + '">' +
+            '<span class="result__body"><span class="result__name">' + esc(stadt) + '</span>' +
+            '<span class="result__meta">' + anzahl + ' Praxen dabei</span></span>' +
+          '</button></li>';
         }).join("") +
-      '</div></div>' +
-      '<div class="field"><label for="pQuery">Oder Praxis direkt suchen</label>' +
-        '<input type="search" id="pQuery" placeholder="z. B. Behrens" value="' + patient.query + '"></div>' +
-      '<div class="actions"><button class="btn" id="pGo">Praxen anzeigen</button></div>';
+      '</ul></div>';
 
-    document.getElementById("pStadt").onchange = function(e){ patient.stadt = e.target.value; };
-    document.getElementById("pQuery").oninput = function(e){ patient.query = e.target.value; };
-    document.getElementById("pFach").onclick = function(e){
-      var b = e.target.closest("[data-fach]");
+    app.querySelector(".results").onclick = function(e){
+      var b = e.target.closest("[data-stadt]");
       if(!b) return;
-      patient.fach = (patient.fach === b.dataset.fach) ? null : b.dataset.fach;
-      renderSuche();
+      patient.stadt = b.dataset.stadt;
+      patient.fach = null;
+      patient.query = "";
+      patient.screen = "liste";
+      renderPatient();
     };
-    document.getElementById("pGo").onclick = function(){ patient.screen = "liste"; renderPatient(); };
   }
 
+  /* --- Bildschirm 2: Liste mit Live-Filter --- */
   function treffer(){
     var q = patient.query.trim().toLowerCase();
     return PRAXEN.filter(function(p){
-      if(q) return (p.name + " " + p.stadt + " " + p.viertel).toLowerCase().indexOf(q) !== -1;
       if(p.stadt !== patient.stadt) return false;
       if(patient.fach && p.fach !== patient.fach) return false;
+      if(q && (p.name + " " + p.viertel + " " + p.strasse).toLowerCase().indexOf(q) === -1) return false;
       return true;
     });
   }
 
   function renderListe(){
-    var liste = treffer();
-    var kopf = patient.query.trim() ? 'Suche „' + patient.query.trim() + '“'
-                                    : patient.stadt + (patient.fach ? " · " + patient.fach : "");
-
+    // Hülle einmal bauen. Danach werden nur Chips und Trefferliste
+    // neu gezeichnet — so verliert das Suchfeld beim Tippen nicht den Fokus.
     app.innerHTML =
-      '<button class="backlink" id="pBack">Zurück zur Suche</button>' +
-      '<h1 class="app__title">' + liste.length + ' Praxen</h1>' +
-      '<p class="app__kicker" style="margin:-14px 0 10px">' + kopf + '</p>' +
-      (liste.length
-        ? '<ul class="results">' + liste.map(function(p){
-            var st = praxisStatus(p);
-            var anzahl = p.strecken.length;
-            return '<li><button class="result" data-id="' + p.id + '">' +
-              '<span class="result__body">' +
-                '<span class="result__name">' + p.name + '</span>' +
-                '<span class="result__meta">' + p.fach + ' · ' + p.viertel +
-                  (anzahl > 1 ? ' · ' + anzahl + ' Strecken' : '') + '</span>' +
-              '</span>' +
-              '<span class="pill pill--' + st.stufe + '">' + st.text + '</span>' +
-            '</button></li>';
-          }).join("") + '</ul>'
-        : '<p class="empty">Keine Praxis gefunden. ' + PRODUKT + ' zeigt nur Praxen, die mitmachen — das ist der Vertriebsjob.</p>');
+      '<button class="backlink" id="pBack">' + esc(patient.stadt) + ' ändern</button>' +
+      '<div class="field"><label for="pQuery">Praxis suchen</label>' +
+        '<input type="search" id="pQuery" placeholder="Name, Viertel oder Straße" value="' + esc(patient.query) + '"></div>' +
+      '<div class="chiprow" id="fachChips"></div>' +
+      '<div class="app__scroll"><ul class="results" id="trefferListe"></ul></div>';
 
-    document.getElementById("pBack").onclick = function(){ patient.screen = "suche"; renderPatient(); };
-    var ul = app.querySelector(".results");
-    if(ul) ul.onclick = function(e){
+    document.getElementById("pBack").onclick = function(){ patient.screen = "ort"; renderPatient(); };
+
+    var input = document.getElementById("pQuery");
+    input.oninput = function(e){ patient.query = e.target.value; zeichneTreffer(); };
+
+    document.getElementById("fachChips").onclick = function(e){
+      var b = e.target.closest("[data-fach]");
+      if(!b) return;
+      var wert = b.dataset.fach;
+      patient.fach = (wert === "" || patient.fach === wert) ? null : wert;
+      zeichneChips();
+      zeichneTreffer();
+    };
+
+    document.getElementById("trefferListe").onclick = function(e){
+      var reset = e.target.closest("#pReset");
+      if(reset){
+        patient.fach = null;
+        patient.query = "";
+        document.getElementById("pQuery").value = "";
+        zeichneChips();
+        zeichneTreffer();
+        return;
+      }
       var b = e.target.closest("[data-id]");
       if(!b) return;
       var p = praxisById(Number(b.dataset.id));
@@ -667,24 +724,66 @@
       }
       renderPatient();
     };
+
+    zeichneChips();
+    zeichneTreffer();
   }
 
-  // Neuer Zwischenschritt: bei wem genau ist der Termin?
+  function zeichneChips(){
+    var box = document.getElementById("fachChips");
+    if(!box) return;
+    var vorhanden = FACHRICHTUNGEN.filter(function(f){
+      return PRAXEN.some(function(p){ return p.stadt === patient.stadt && p.fach === f; });
+    });
+    box.innerHTML =
+      '<button class="chip" data-fach="" aria-pressed="' + (patient.fach === null) + '">Alle</button>' +
+      vorhanden.map(function(f){
+        return '<button class="chip" data-fach="' + esc(f) + '" aria-pressed="' + (patient.fach === f) + '">' + esc(f) + '</button>';
+      }).join("");
+  }
+
+  function zeichneTreffer(){
+    var ul = document.getElementById("trefferListe");
+    if(!ul) return;
+    var liste = treffer();
+
+    if(!liste.length){
+      ul.innerHTML = '<li><p class="empty">Keine Praxis gefunden. ' + PRODUKT +
+        ' zeigt nur Praxen, die mitmachen — das ist der Vertriebsjob.' +
+        '<button class="linkish" id="pReset">Filter zurücksetzen</button></p></li>';
+      return;
+    }
+
+    ul.innerHTML = liste.map(function(p){
+      var st = praxisStatus(p);
+      var anzahl = p.strecken.length;
+      return '<li><button class="result" data-id="' + p.id + '">' +
+        '<span class="result__body">' +
+          '<span class="result__name">' + esc(p.name) + '</span>' +
+          '<span class="result__meta">' + esc(p.fach) + ' · ' + esc(p.viertel) +
+            (anzahl > 1 ? ' · ' + anzahl + ' Behandlungsplätze' : '') + '</span>' +
+        '</span>' +
+        '<span class="pill pill--' + st.stufe + '">' + st.text + '</span>' +
+      '</button></li>';
+    }).join("");
+  }
+
+  /* --- Bildschirm 3: Strecke --- */
   function renderStreckenwahl(){
     var p = praxisById(patient.praxisId);
     app.innerHTML =
       '<button class="backlink" id="sBack">Zurück zur Liste</button>' +
-      '<div class="praxishead"><h2>' + p.name + '</h2><p>' + p.adresse + '</p></div>' +
-      '<h1 class="app__title" style="font-size:1.125rem;margin-bottom:6px">Bei wem haben Sie Ihren Termin?</h1>' +
-      '<p class="app__kicker" style="margin-bottom:6px">Steht auf Ihrem Terminzettel.</p>' +
-      '<ul class="results">' + p.strecken.map(function(s){
+      '<div class="praxishead"><h2>' + esc(p.name) + '</h2><p>' + esc(p.adresse) + '</p></div>' +
+      '<h1 class="app__title" style="font-size:1.125rem;margin-bottom:4px">Bei wem haben Sie Ihren Termin?</h1>' +
+      '<p class="app__kicker" style="margin-bottom:8px">Steht auf Ihrem Terminzettel.</p>' +
+      '<div class="app__scroll"><ul class="results">' + p.strecken.map(function(s){
         var w = weitergabe(s);
         return '<li><button class="result" data-sid="' + s.id + '">' +
-          '<span class="result__body"><span class="result__name">' + s.label + '</span></span>' +
+          '<span class="result__body"><span class="result__name">' + esc(s.label) + '</span></span>' +
           '<span class="pill pill--' + stufe(w.minuten) + '">' + statusText(w.minuten) + '</span>' +
         '</button></li>';
       }).join("") + '</ul>' +
-      '<p class="notice">Im Produkt entfällt dieser Schritt: jede Strecke hat ihren eigenen QR-Code auf dem Terminzettel. Ein Scan, und das Handy weiß Praxis und Strecke.</p>';
+      '<p class="notice">Im Produkt entfällt dieser Schritt: jeder Arzt und jeder Behandlungsplatz hat einen eigenen QR-Code auf dem Terminzettel. Ein Scan, und das Handy weiß, wohin.</p></div>';
 
     document.getElementById("sBack").onclick = function(){ patient.screen = "liste"; renderPatient(); };
     app.querySelector(".results").onclick = function(e){
@@ -696,6 +795,7 @@
     };
   }
 
+  /* --- Bildschirm 4: Detail --- */
   function renderDetail(){
     var s = streckeById(patient.streckeId);
     var p = s.praxis;
@@ -708,10 +808,10 @@
     var mehrere = p.strecken.length > 1;
 
     var html =
-      '<button class="backlink" id="dBack">' + (mehrere ? "Andere Strecke wählen" : "Zurück zur Liste") + '</button>' +
-      '<div class="praxishead"><h2>' + p.name + '</h2><p>' +
-        (mehrere ? "Termin bei " + s.label + " · " : "") + p.adresse +
-      '</p></div>';
+      '<button class="backlink" id="dBack">' + (mehrere ? "Zurück zur Auswahl" : "Zurück zur Liste") + '</button>' +
+      '<div class="praxishead"><h2>' + esc(p.name) + '</h2><p>' +
+        (mehrere ? esc(s.label) + " · " : "") + esc(p.adresse) + '</p></div>' +
+      '<div class="app__scroll">';
 
     if(zuFrueh){
       html +=
@@ -729,11 +829,14 @@
           '<p class="hero__time">' + hhmm(kommen) + '</p>' +
           (w.minuten > 0
             ? '<p class="hero__delta hero__delta--up">' + w.minuten + ' Minuten später als Ihr Termin um ' + hhmm(termin) + '</p>'
-            : '<p class="hero__delta hero__delta--ok">' + (mehrere ? s.label + " liegt im Plan" : "Die Praxis liegt im Plan") + '</p>') +
+            : '<p class="hero__delta hero__delta--ok">' +
+                (s.verzug > 0
+                  ? "Ihr Termin verschiebt sich nicht"
+                  : (mehrere ? esc(s.label) + " liegt im Plan" : "Die Praxis liegt im Plan")) + '</p>') +
         '</div>' +
         '<dl>' +
           '<div class="factrow"><dt>Ihr Termin</dt><dd>' + hhmm(termin) + '</dd></div>' +
-          (mehrere ? '<div class="factrow"><dt>Behandlung bei</dt><dd>' + s.label + '</dd></div>' : '') +
+          (mehrere ? '<div class="factrow"><dt>Behandlung bei</dt><dd>' + esc(s.label) + '</dd></div>' : '') +
           '<div class="factrow"><dt>Zuletzt aktualisiert</dt><dd>' +
             (s.aktualisiert ? hhmm(s.aktualisiert) + " Uhr" : "noch nicht heute") + '</dd></div>' +
         '</dl>';
@@ -742,7 +845,7 @@
         html += '<p class="notice notice--warn"><strong>Unzuverlässig.</strong> Bis zu Ihrem Termin sind noch Stunden — dieser Wert ändert sich mit hoher Wahrscheinlichkeit.</p>';
       }
       if(w.minuten === 0 && s.verzug > 0){
-        html += '<p class="notice">' + (mehrere ? s.label : "Die Praxis") + ' liegt etwas hinter dem Plan, aber zu wenig, um Ihren Termin zu verschieben. Kommen Sie wie vereinbart.</p>';
+        html += '<p class="notice">' + (mehrere ? esc(s.label) : "Die Praxis") + ' liegt etwas hinter dem Plan, aber zu wenig, um Ihren Termin zu verschieben. Kommen Sie wie vereinbart.</p>';
       }
       if(patient.erweitert){
         html += '<p class="notice">Roher Verzug: <strong>' + s.verzug + ' Minuten</strong>. ' + PRODUKT + ' gibt ' +
@@ -752,9 +855,9 @@
       html += '<button class="linkish" id="dErw">' + (patient.erweitert ? "Details ausblenden" : "Wie wird das berechnet?") + '</button>';
     }
 
-    html +=
+    html += '</div>' +
       '<div class="actions">' +
-        '<button class="btn" id="dCall">Praxis anrufen · ' + p.tel + '</button>' +
+        '<button class="btn" id="dCall">Praxis anrufen · ' + esc(p.tel) + '</button>' +
         '<button class="btn btn--ghost btn--row" id="dCancel">Termin absagen</button>' +
       '</div>';
 
@@ -781,10 +884,10 @@
   function renderMath(s, w){
     var box = document.getElementById("mathBox");
     if(!box) return;
-    if(!s){ box.textContent = "Wählen Sie eine Praxis und eine Strecke, um die Rechnung zu sehen."; return; }
+    if(!s){ box.textContent = "Wählen Sie eine Praxis und einen Arzt, um die Rechnung zu sehen."; return; }
     var p = s.praxis;
     box.innerHTML =
-      "Verzug von " + s.label + ": <b>" + s.verzug + " Min</b><br>" +
+      "Verzug von " + esc(s.label) + ": <b>" + s.verzug + " Min</b><br>" +
       "− Sicherheitspuffer <b>" + p.puffer + " Min</b><br>" +
       "= <b>" + w.nachPuffer + " Min</b>" +
       (w.minuten === 0
@@ -808,19 +911,22 @@
     document.getElementById("dashAddr").textContent = p.adresse + " · " + p.fach;
     document.getElementById("setPuffer").value = p.puffer;
     document.getElementById("setSchwelle").value = p.schwelle;
+    document.getElementById("setOeffnet").value = p.oeffnet;
     document.getElementById("setSchliesst").value = p.schliesst;
 
-    // Linke Spalte: alle Strecken
+    // Linke Spalte: alle Strecken mit Verzug und laufender Nummer
     document.getElementById("streckenListe").innerHTML = p.strecken.map(function(s){
       var ws = weitergabe(s);
+      var nr = laufendeNummer(s);
       return '<li><button class="strecke" data-sid="' + s.id + '" aria-current="' + (s.id === sel.id) + '">' +
-        '<span class="strecke__name">' + s.label +
-          '<span class="strecke__sub">' + (s.aktualisiert ? "gesendet " + hhmm(s.aktualisiert) : "nicht gesendet") + '</span>' +
+        '<span class="strecke__name">' + esc(s.label) +
+          '<span class="strecke__sub">' + (nr ? "Nr. " + nr + " in Behandlung" : "noch nicht aufgerufen") +
+            " · " + (s.aktualisiert ? "gesendet " + hhmm(s.aktualisiert) : "nicht gesendet") + '</span>' +
         '</span>' +
-        '<span class="strecke__verzug">' + s.verzug + '<small>Verzug</small></span>' +
+        '<span class="strecke__verzug">' + s.verzug + ' Min' +
+          '<small>' + (s.verzug > 0 ? "hinter dem Plan" : "im Plan") + '</small></span>' +
         '<span class="pill pill--' + (ws.minuten ? stufe(ws.minuten) : "neutral") + '">' +
-          (ws.minuten ? "+" + ws.minuten + " Min" : "nichts") +
-        '</span>' +
+          (ws.minuten ? "Patienten: +" + ws.minuten + " Min" : "Patienten: keine Änderung") + '</span>' +
       '</button></li>';
     }).join("");
 
@@ -831,8 +937,19 @@
       renderDash();
     };
 
-    // Rechte Spalte: gewählte Strecke
+    // Rechte Spalte
+    var nrSel = laufendeNummer(sel);
+    var naechster = ersterOffener(liste);
     document.getElementById("selName").textContent = sel.label;
+    document.getElementById("selSub").textContent = nrSel
+      ? "Nummer " + nrSel + " ist in Behandlung." + (naechster ? " Als nächstes Nummer " + naechster.nummer + " um " + hhmm(naechster.plan) + "." : " Letzter Termin für heute.")
+      : (naechster ? "Noch niemand aufgerufen. Als nächstes Nummer " + naechster.nummer + " um " + hhmm(naechster.plan) + "." : "Keine offenen Termine mehr.");
+
+    document.getElementById("btnNaechster").disabled = !naechster;
+    document.getElementById("btnNaechster").textContent = naechster
+      ? "Nächster Patient · Nr. " + naechster.nummer
+      : "Keine offenen Termine";
+
     document.getElementById("outVal").textContent = w.minuten > 0 ? "+" + w.minuten + " Minuten später" : "wie geplant";
     document.getElementById("outWhy").textContent = w.minuten > 0
       ? sel.verzug + " Min Verzug − " + p.puffer + " Min Puffer, abgerundet auf 5."
@@ -841,25 +958,26 @@
       ? "Zuletzt gesendet: " + hhmm(sel.aktualisiert) + " Uhr."
       : "Noch nicht aktualisiert.";
 
-    // Zeitraster
     document.getElementById("rasterName").textContent = "· " + sel.label;
 
     var offen = liste.filter(function(t){ return t.status === "offen" || t.status === "laeuft"; });
     var letzter = offen.length ? offen[offen.length-1] : null;
+    var feierabend = uhrzeitHeute(p.schliesst);
+    // Ende = Planzeit des letzten Termins + Verzug + Dauer dieses Termins
     var endeZeit = letzter ? plusMin(plusMin(letzter.plan, sel.verzug), letzter.dauer) : null;
 
     var ueber = document.getElementById("ueberzug");
-    if(endeZeit && endeZeit.getHours() >= p.schliesst){
+    if(endeZeit && endeZeit > feierabend){
       ueber.hidden = false;
-      ueber.innerHTML = '<strong>Strecke läuft über.</strong> Mit ' + sel.verzug + ' Min Verzug endet der letzte Termin um ' +
-        hhmm(endeZeit) + ' Uhr, geschlossen wird ' + p.schliesst + ':00. ' +
+      ueber.innerHTML = '<strong>Sprechstunde läuft über.</strong> Geplant war Schluss um ' + hhmm(feierabend) +
+        ' Uhr. Mit ' + sel.verzug + ' Min Verzug endet der letzte Termin erst um ' + hhmm(endeZeit) + ' Uhr. ' +
         '<button class="linkish" id="btnVerlegen" style="margin-top:8px">Termine ohne Notfallstatus auf morgen verlegen</button>';
       var bv = document.getElementById("btnVerlegen");
       if(bv) bv.onclick = function(){
         var n = 0;
         liste.forEach(function(t){
           if(t.status !== "offen" || t.notfall) return;
-          if(plusMin(t.plan, sel.verzug).getHours() >= p.schliesst){ t.status = "morgen"; n++; }
+          if(plusMin(plusMin(t.plan, sel.verzug), t.dauer) > feierabend){ t.status = "morgen"; n++; }
         });
         zeigeFlash(n ? n + " Termine auf morgen verlegt. Notfälle sind geblieben." : "Keine verlegbaren Termine gefunden.");
         renderDash();
@@ -868,10 +986,25 @@
       ueber.hidden = true;
     }
 
+    var hinweis = document.getElementById("rasterHinweis");
+    if(!liste.length){
+      hinweis.hidden = false;
+      hinweis.innerHTML = '<strong>Keine Sprechzeiten.</strong> Beginn und Ende rechts prüfen.';
+    } else if(jetzt > feierabend){
+      hinweis.hidden = false;
+      hinweis.innerHTML = '<strong>Nach Feierabend.</strong> Die Sprechstunde von heute ist durch, darum steht keine Nummer mehr offen.';
+    } else if(jetzt < uhrzeitHeute(p.oeffnet)){
+      hinweis.hidden = false;
+      hinweis.innerHTML = '<strong>Vor Praxisbeginn.</strong> Alle Nummern stehen noch offen.';
+    } else {
+      hinweis.hidden = true;
+    }
+
     var LABEL = {offen:"", laeuft:"läuft", erledigt:"erledigt", entfallen:"entfallen", morgen:"morgen"};
     document.getElementById("raster").innerHTML = liste.map(function(t){
       return '<li class="is-' + t.status + '">' +
         '<button class="rtime" data-nr="' + t.nr + '">' +
+          '<span class="rtime__nr">' + t.nummer + '</span>' +
           '<span class="rtime__t">' + hhmm(t.plan) + '</span>' +
           '<span class="rtime__art">' + t.art + ' <small>· ' + t.dauer + ' Min</small></span>' +
           (LABEL[t.status] ? '<span class="rtime__st">' + LABEL[t.status] + '</span>' : '') +
@@ -883,7 +1016,8 @@
     document.getElementById("raster").onclick = function(e){
       var flag = e.target.closest("[data-flag]");
       if(flag){
-        liste[Number(flag.dataset.flag)].notfall = !liste[Number(flag.dataset.flag)].notfall;
+        var ft = liste[Number(flag.dataset.flag)];
+        ft.notfall = !ft.notfall;
         renderDash();
         return;
       }
@@ -892,38 +1026,43 @@
       aufrufen(sel, liste, Number(b.dataset.nr));
     };
 
+    // Die Liste ist einen ganzen Praxistag lang: zur aktuellen Stelle scrollen.
+    var rasterBox = document.getElementById("raster");
+    var marke = rasterBox.querySelector(".is-laeuft") || rasterBox.querySelector(".is-offen");
+    if(marke) rasterBox.scrollTop = Math.max(0, marke.offsetTop - 70);
+
     document.getElementById("dashClock").textContent = hhmm(jetzt);
     document.getElementById("dashDate").textContent =
       jetzt.toLocaleDateString("de-DE",{weekday:"long",day:"numeric",month:"long"});
 
-    // Patientenansicht mitziehen, falls sie dieselbe Strecke zeigt
     if(patient.streckeId === sel.id && patient.screen === "detail") renderPatient();
     renderMath(streckeById(patient.streckeId), weitergabe(streckeById(patient.streckeId) || sel));
   }
 
-  /* Der angetippte Termin ist der, der gerade hereingegangen ist.
+  /* Der aufgerufene Termin ist der, der gerade hereingegangen ist.
      Alles davor, das noch offen war, gilt als entfallen — damit
-     verfälscht eine Absage den Verzug nicht. */
+     verfälscht eine Absage den Verzug nicht. Der Verzug kommt immer
+     aus der Planzeit, niemals aus einer Zählung. */
   function aufrufen(strecke, liste, nr){
     var ziel = liste[nr];
-    if(ziel.status === "morgen") return;
+    if(!ziel || ziel.status === "morgen") return;
 
     var entfallen = 0;
     liste.forEach(function(t){
       if(t.nr < nr){
         if(t.status === "offen"){ t.status = "entfallen"; entfallen++; }
-        if(t.status === "laeuft"){ t.status = "erledigt"; }
+        else if(t.status === "laeuft"){ t.status = "erledigt"; }
       } else if(t.nr === nr){
         t.status = "laeuft";
-      } else if(t.status === "laeuft" || t.status === "erledigt" || t.status === "entfallen"){
+      } else if(t.status !== "morgen"){
         t.status = "offen";
       }
     });
 
     strecke.verzug = Math.max(0, minDiff(new Date(), ziel.plan));
-    zeigeFlash("Planzeit " + hhmm(ziel.plan) + " aufgerufen um " + hhmm(new Date()) +
+    zeigeFlash("Nr. " + ziel.nummer + " (Planzeit " + hhmm(ziel.plan) + ") aufgerufen um " + hhmm(new Date()) +
       " — Verzug " + strecke.verzug + " Min" +
-      (entfallen ? ", " + entfallen + " übersprungene Zeit" + (entfallen>1?"en":"") + " als entfallen gebucht." : "."));
+      (entfallen ? ", " + entfallen + " übersprungene Nummer" + (entfallen>1?"n":"") + " als entfallen gebucht." : "."));
     renderDash();
   }
 
@@ -935,6 +1074,14 @@
     clearTimeout(flashTimer);
     flashTimer = setTimeout(function(){ f.hidden = true; }, 5000);
   }
+
+  document.getElementById("btnNaechster").onclick = function(){
+    var sel = streckeById(dash.streckeId);
+    var liste = raster(sel);
+    var n = ersterOffener(liste);
+    if(!n){ zeigeFlash("Alle Termine dieser Strecke sind durch."); return; }
+    aufrufen(sel, liste, n.nr);
+  };
 
   document.querySelector(".steps").onclick = function(e){
     var b = e.target.closest("[data-delta]");
@@ -954,18 +1101,30 @@
     renderDash();
   };
 
-  function einstellung(feldId, schluessel, min, max){
+  // Das vierte Argument sagt: bei dieser Einstellung muss der
+  // Tagesplan neu aufgebaut werden, weil sich die Sprechzeiten ändern.
+  function einstellung(feldId, schluessel, min, max, planNeu){
     document.getElementById(feldId).oninput = function(e){
       var p = praxisById(dash.praxisId);
       var v = Number(e.target.value);
       if(isNaN(v)) return;
       p[schluessel] = Math.max(min, Math.min(max, v));
+      if(planNeu) tagNeu(p);
       renderDash();
     };
   }
   einstellung("setPuffer", "puffer", 0, 60);
   einstellung("setSchwelle", "schwelle", 0, 60);
-  einstellung("setSchliesst", "schliesst", 12, 22);
+  einstellung("setOeffnet", "oeffnet", 6, 13, true);
+  einstellung("setSchliesst", "schliesst", 14, 22, true);
+
+  document.getElementById("btnTagNeu").onclick = function(){
+    var p = praxisById(dash.praxisId);
+    p.strecken.forEach(function(s){ s.aktualisiert = null; });
+    tagNeu(p);
+    zeigeFlash("Sprechstunde zurückgesetzt. Alle Nummern bis jetzt gelten als erledigt.");
+    renderDash();
+  };
 
   /* ============================================================
      ABSCHNITT 7 — DEMO-STEUERUNG, ANSICHTSWECHSEL, START
@@ -1003,11 +1162,10 @@
       renderPatient();
     } else {
       if(patient.praxisId) dash.praxisId = patient.praxisId;
-      if(patient.streckeId && streckeById(patient.streckeId).praxis.id === dash.praxisId){
-        dash.streckeId = patient.streckeId;
-      } else {
-        dash.streckeId = praxisById(dash.praxisId).strecken[0].id;
-      }
+      var ps = patient.streckeId ? streckeById(patient.streckeId) : null;
+      dash.streckeId = (ps && ps.praxis.id === dash.praxisId)
+        ? patient.streckeId
+        : praxisById(dash.praxisId).strecken[0].id;
       renderDash();
     }
   }
